@@ -1,0 +1,57 @@
+# ── Python ─────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+*.so
+.Python
+env/
+venv/
+.venv/
+*.egg-link
+
+# ── Environment / Secrets ───────────────────────────────────────────────
+.env
+.env.local
+.env.production
+*.env
+
+# ── Database ────────────────────────────────────────────────────────────
+*.db
+*.sqlite
+*.sqlite3
+data/exports/
+
+# ── FAISS vectorstore (rebuild from source JSON on deploy) ─────────────
+data/vectorstore/
+
+# ── Logs ────────────────────────────────────────────────────────────────
+*.log
+logs/
+
+# ── OS ──────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── IDE ──────────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ── Testing ──────────────────────────────────────────────────────────────
+.pytest_cache/
+.coverage
+htmlcov/
+
+# ── Node (future frontend tooling) ──────────────────────────────────────
+node_modules/
+
+# ── Docker ──────────────────────────────────────────────────────────────
+.dockerignore

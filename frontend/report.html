@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Patient Report | NurseBot</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="/static/report.css"/>
+</head>
+<body>
+
+<!-- ── PRINT HEADER (visible only in print) ─────────────────────────────── -->
+<div class="print-header">
+  <div class="print-logo">🏥 NurseBot AI — Hospital Intake Report</div>
+  <div class="print-date" id="printDate"></div>
+</div>
+
+<!-- ── SCREEN HEADER ────────────────────────────────────────────────────── -->
+<header class="rpt-header no-print">
+  <div class="rpt-header-left">
+    <a href="/" class="rpt-logo">🏥 NurseBot</a>
+    <div>
+      <h1>Patient Intake Report</h1>
+      <p id="rptSubtitle" class="rpt-subtitle">Generating…</p>
+    </div>
+  </div>
+  <div class="rpt-header-right">
+    <button class="hdr-btn listen-btn" id="listenBtn" onclick="listenConversation()">🔊 Listen</button>
+    <button class="hdr-btn save-btn" onclick="saveLocalFiles()">💾 Save Files</button>
+    <button class="hdr-btn pdf-btn" onclick="savePDF()">📄 Save PDF</button>
+  </div>
+</header>
+
+<div class="rpt-body" id="rptBody">
+  <div class="loading-state" id="loadingState">
+    <div class="spinner"></div><p>Generating AI Report…</p>
+  </div>
+
+  <!-- ══ SECTION 1: PATIENT BANNER ═══════════════════════════════════════ -->
+  <section class="section hidden" id="secBanner">
+    <div class="patient-banner">
+      <div class="pb-avatar" id="pbAvatar">?</div>
+      <div class="pb-details">
+        <h2 id="pbName">—</h2>
+        <div class="pb-meta">
+          <span class="meta-chip" id="pbAge">Age: —</span>
+          <span class="meta-chip" id="pbGender">Gender: —</span>
+          <span class="meta-chip urgency-chip" id="pbUrgency">—</span>
+          <span class="meta-chip risk-chip" id="pbRisk">—</span>
+        </div>
+        <p id="pbComplaint" class="pb-complaint">—</p>
+      </div>
+      <div class="pb-stats">
+        <div class="pb-stat"><span id="pbDuration">—</span><small>Duration</small></div>
+        <div class="pb-stat"><span id="pbQuestions">—</span><small>Questions</small></div>
+        <div class="pb-stat"><span id="pbDate">—</span><small>Date</small></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ SECTION 2: VITALS ════════════════════════════════════════════════ -->
+  <section class="section hidden" id="secVitals">
+    <div class="section-hdr"><span class="section-icon">📊</span><h2>Vitals & Analysis Charts</h2></div>
+
+    <!-- Stat Chips Row -->
+    <div class="vital-chips" id="vitalChips"></div>
+
+    <!-- Charts -->
+    <div class="charts-grid">
+      <div class="chart-wrap">
+        <div class="chart-title">Blood Pressure</div>
+        <div class="chart-label" id="bpLabel">—</div>
+        <canvas id="chartBP" height="180"></canvas>
+      </div>
+      <div class="chart-wrap">
+        <div class="chart-title">Blood Sugar</div>
+        <div class="chart-label" id="sugarLabel">—</div>
+        <canvas id="chartSugar" height="180"></canvas>
+      </div>
+      <div class="chart-wrap">
+        <div class="chart-title">Body Mass Index</div>
+        <div class="chart-label" id="bmiLabel">—</div>
+        <canvas id="chartBMI" height="180"></canvas>
+      </div>
+      <div class="chart-wrap">
+        <div class="chart-title">Temp & Pulse</div>
+        <canvas id="chartOther" height="180"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ SECTION 3: AI SUMMARY ════════════════════════════════════════════ -->
+  <section class="section hidden" id="secSummary">
+    <div class="section-hdr"><span class="section-icon">🧠</span><h2>AI Summary</h2></div>
+    <div class="two-col">
+      <div class="card">
+        <div class="card-hdr">📋 Clinical Summary</div>
+        <p id="clinicalSummary" class="para">—</p>
+        <div class="divider"></div>
+        <div class="card-hdr">🔬 Symptom Analysis</div>
+        <p id="symptomAnalysis" class="para muted">—</p>
+      </div>
+      <div class="card">
+        <div class="card-hdr">⚡ Key Findings</div>
+        <ul class="findings-list" id="keyFindings"></ul>
+        <div id="redFlagSection" class="hidden" style="margin-top:14px">
+          <div class="card-hdr" style="color:#ef4444">⚠ Red Flags</div>
+          <ul class="red-list" id="redFlags"></ul>
+        </div>
+      </div>
+    </div>
+    <div class="three-col">
+      <div class="card sm">
+        <div class="card-hdr">💊 Medications Reported</div>
+        <p id="aiMeds" class="para muted">—</p>
+      </div>
+      <div class="card sm">
+        <div class="card-hdr">⚠️ Allergies & History</div>
+        <p id="aiAllergies" class="para muted">—</p>
+      </div>
+      <div class="card sm">
+        <div class="card-hdr">🔬 Drug Concerns</div>
+        <p id="aiMedConcerns" class="para muted">—</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ SECTION 4: RECOMMENDATIONS ══════════════════════════════════════ -->
+  <section class="section hidden" id="secReco">
+    <div class="section-hdr"><span class="section-icon">🩺</span><h2>Recommendations</h2></div>
+    <div class="card">
+      <div class="card-hdr">🤖 AI Clinical Recommendations</div>
+      <ul class="reco-list" id="aiRecos"></ul>
+      <div class="divider"></div>
+      <div class="card-hdr">✍️ Doctor's Notes</div>
+      <textarea id="doctorNotes" class="doctor-notes no-print" rows="4" placeholder="Clinical notes, observations, treatment plan…"></textarea>
+      <div class="printed-notes hidden print-only" id="printedNotes"></div>
+
+      <div class="card-hdr" style="margin-top:18px">Clinical Actions</div>
+      <div class="cb-grid no-print">
+        <label class="cb"><input type="checkbox" id="cbPrescription"/> 💊 Issue Prescription</label>
+        <label class="cb"><input type="checkbox" id="cbSpecialist"/>  🏥 Refer Specialist</label>
+        <label class="cb"><input type="checkbox" id="cbLabTests"/>    🔬 Order Lab Tests</label>
+        <label class="cb"><input type="checkbox" id="cbDiet"/>        🥗 Diet Advice</label>
+        <label class="cb"><input type="checkbox" id="cbExercise"/>    🏃 Exercise Plan</label>
+      </div>
+      <div id="printedActions" class="print-only hidden"></div>
+
+      <div class="card-hdr" style="margin-top:18px">Follow-up Schedule</div>
+      <div class="fu-row no-print">
+        <label class="cb"><input type="radio" name="fu" value="7"/> In 7 days</label>
+        <label class="cb"><input type="radio" name="fu" value="15" checked/> In 15 days</label>
+        <label class="cb"><input type="radio" name="fu" value="30"/> In 30 days</label>
+        <label class="cb"><input type="radio" name="fu" value="0"/> No follow-up</label>
+      </div>
+      <div class="v-field no-print" style="max-width:240px;margin-top:10px">
+        <label>Follow-up Date</label>
+        <input type="date" id="fuDate" class="v-input"/>
+      </div>
+      <div id="printedFollowup" class="print-only hidden"></div>
+
+      <div class="reco-actions no-print">
+        <button class="act-btn save-act" onclick="saveRecommendation()">💾 Save Recommendation</button>
+        <button class="act-btn pdf-act" onclick="savePDF()">📄 Save as PDF</button>
+        <button class="act-btn files-act" onclick="saveLocalFiles()">📁 Save All Files</button>
+        <span class="save-status" id="saveStatus"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ SECTION 5: CONVERSATION ══════════════════════════════════════════ -->
+  <section class="section hidden no-print" id="secConv">
+    <details class="conv-details">
+      <summary class="conv-summary">💬 Full Conversation Transcript</summary>
+      <div class="conv-list" id="convList"></div>
+    </details>
+  </section>
+</div>
+
+<footer class="rpt-footer no-print">
+  <span>🏥 NurseBot AI &mdash; Confidential Patient Document</span>
+  <span id="footerId"></span>
+</footer>
+
+<div class="print-footer print-only">
+  Confidential — NurseBot AI Hospital Intake Report | <span id="pfDate"></span>
+</div>
+
+<div class="toast hidden" id="toast"></div>
+
+<script src="/static/report.js"></script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+[
+  {
+    "id": "kb_001",
+    "category": "emergency",
+    "title": "Chest Pain Emergency Protocol",
+    "content": "Chest pain is a potential emergency symptom. If the patient reports chest pain with shortness of breath, sweating, or pain radiating to the jaw or arm, immediately alert the attending physician and initiate emergency protocol. Do not delay. Ask when the pain started, its severity on a scale of 1-10, and any associated symptoms.",
+    "keywords": ["chest pain", "heart attack", "myocardial infarction", "cardiac", "chest tightness"],
+    "risk_level": "critical",
+    "version": "1.0"
+  },
+  {
+    "id": "kb_002",
+    "category": "respiratory",
+    "title": "Respiratory Symptoms — Intake Guide",
+    "content": "Common respiratory symptoms include cough, shortness of breath, wheezing, and chest congestion. Ask about duration, severity, any associated fever, and whether the patient has a history of asthma or COPD. Note any recent travel or sick contacts which may indicate infectious cause.",
+    "keywords": ["cough", "shortness of breath", "breathing", "respiratory", "asthma", "COPD", "wheeze"],
+    "risk_level": "medium",
+    "version": "1.0"
+  },
+  {
+    "id": "kb_003",
+    "category": "fever",
+    "title": "Fever Assessment Protocol",
+    "content": "Fever is defined as a body temperature above 38°C (100.4°F). Ask how high the temperature has been, how long the fever has lasted, and if any home medications were taken. High fever above 39.5°C or fever lasting more than 3 days warrants urgent attention. Check for associated chills, sweating, and rigors.",
+    "keywords": ["fever", "temperature", "chills", "sweating", "high temperature", "pyrexia"],
+    "risk_level": "medium",
+    "version": "1.0"
+  },
+  {
+    "id": "kb_004",
+    "category": "pain",
+    "title": "Pain Assessment — General Guidelines",
+    "content": "For any pain complaint, use the OPQRST framework: Onset (when did it start), Provocation/Palliation (what makes it better or worse), Quality (sharp, dull, burning, aching), Radiation (does it spread), Severity (rate 1–10), Timing (constant or intermittent). Document all answers accurately.",
+    "keywords": ["pain", "ache", "discomfort", "OPQRST", "severity", "onset"],
+    "risk_level": "low",
+    "version": "1.0"
+  },
+  {
+    "id": "kb_005",
+    "category": "medications",
+    "title": "Medication History Collection",
+    "content": "Ask patients for a complete list of all medications they are currently taking, including prescription drugs, over-the-counter medications, vitamins, and herbal supplements. Note the name, dose, and frequency. This is critical for avoiding drug interactions. Ask specifically about blood thinners, diabetes medications, and blood pressure drugs.",
+    "keywords": ["medications", "drugs", "prescription", "supplements", "blood thinners", "warfarin", "aspirin"],
+    "risk_level": "medium",
+    "version": "1.0"
+  },
+  {
+    "id": "kb_006",
+    "category": "allergies",
+    "title": "Allergy Documentation Protocol",
+    "content": "Document all known patient allergies with their reactions. Ask specifically about drug allergies (especially penicillin, sulfa drugs, NSAIDs), food allergies (especially shellfish and latex if procedures are planned), and any history of anaphylaxis. Note the type of reaction: rash, swelling, anaphylaxis, or intolerance.",
+    "keywords": ["allergy", "allergies", "anaphylaxis", "penicillin", "sulfa", "rash", "reaction"],
+    "risk_level": "high",
+    "version": "1.0"
+  },
+  {
+    "id": "kb_007",
+    "category": "diabetes",
+    "title": "Diabetes Patient Intake",
+    "content": "For diabetic patients, check last blood glucose reading, current insulin or oral medication regimen, recent HbA1c results, and any symptoms of hypoglycemia or hyperglycemia such as dizziness, excessive thirst, or frequent urination. Ask about any foot wounds or vision changes.",
+    "keywords": ["diabetes", "insulin", "blood sugar", "glucose", "hypoglycemia", "hyperglycemia", "HbA1c"],
+    "risk_level": "medium",
+    "version": "1.0"
+  },
+  {
+    "id": "kb_008",
+    "category": "policy",
+    "title": "Patient Privacy and HIPAA Policy",
+    "content": "All patient information collected during intake must be treated as confidential and protected under applicable privacy laws. Do not share patient details with unauthorized persons. The intake bot records conversation transcripts for clinical review only. Patients may request deletion of their data at any time by contacting the hospital privacy officer.",
+    "keywords": ["privacy", "HIPAA", "confidential", "data protection", "patient rights"],
+    "risk_level": "low",
+    "version": "1.0"
+  },
+  {
+    "id": "kb_009",
+    "category": "hypertension",
+    "title": "High Blood Pressure — Intake Notes",
+    "content": "Ask hypertensive patients about their current blood pressure medications, last BP reading, any recent headaches, blurred vision, or dizziness which could indicate hypertensive urgency. Ask if they have been taking their medications regularly. BP above 180/120 with symptoms is a hypertensive emergency.",
+    "keywords": ["hypertension", "blood pressure", "BP", "headache", "dizziness", "amlodipine", "lisinopril"],
+    "risk_level": "high",
+    "version": "1.0"
+  },
+  {
+    "id": "kb_010",
+    "category": "pediatric",
+    "title": "Pediatric Patient Intake — Special Considerations",
+    "content": "When taking intake for a pediatric patient, address the parent or guardian. Ask about the child's age, weight, vaccination history, and any known congenital conditions. Record temperature, feeding patterns, and any recent sick contacts at school. Escalate any child with high fever, rash, altered consciousness, or difficulty breathing.",
+    "keywords": ["child", "pediatric", "infant", "baby", "vaccination", "parent", "guardian", "fever in child"],
+    "risk_level": "medium",
+    "version": "1.0"
+  }
+]
