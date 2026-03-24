@@ -218,49 +218,185 @@ function showToast(msg, type='') {
   setTimeout(() => t.classList.add('hidden'), 3500);
 }
 
-// ── STT ───────────────────────────────────────────────────────────────────────
-async function toggleMic() { isRecording ? stopRecording() : startRecording(); }
-async function startRecording() {
-  try {
-    const stream = await navigator.mediaDevices.getUserMedia({audio:true});
-    audioChunks = [];
-    mediaRecorder = new MediaRecorder(stream, {mimeType:'audio/webm'});
-    mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
-    mediaRecorder.onstop = sendAudioToSTT;
-    mediaRecorder.start();
-    isRecording = true;
-    document.getElementById('micBtn').classList.add('recording');
-    setStatus('🎙️ Recording… tap mic to stop');
-  } catch(e) { showToast('Microphone access denied.','error'); }
-}
-function stopRecording() {
-  if (mediaRecorder && isRecording) {
-    mediaRecorder.stop(); mediaRecorder.stream.getTracks().forEach(t=>t.stop());
-    isRecording = false;
-    document.getElementById('micBtn').classList.remove('recording');
-    setStatus('Processing audio…');
+// ── Continuous Voice Mode (VAD) ───────────────────────────────────────────────
+let   audioCtx    = null;
+let   analyser    = null;
+let   vadStream   = null;
+let   vadAnimId   = null;
+let   currentTTS  = null;   // current playing Audio object
+let   voiceLoop   = false;  // is the continuous loop active?
+const SILENCE_THRESHOLD = 8;   // RMS level below which we consider silence
+const SILENCE_DELAY_MS  = 1800; // ms of silence before auto-stop
+
+// One-click toggle for mic
+async function toggleMic() {
+  if (voiceLoop) {
+    stopVoiceLoop();
+  } else {
+    startVoiceLoop();
   }
 }
-async function sendAudioToSTT() {
-  const blob = new Blob(audioChunks, {type:'audio/webm'});
-  const form = new FormData(); form.append('audio', blob, 'recording.webm');
+
+function stopVoiceLoop() {
+  voiceLoop = false;
+  stopCurrentTTS();
+  stopRecordingVAD();
+  document.getElementById('micBtn').classList.remove('recording');
+  setStatus('Voice mode stopped');
+}
+
+async function startVoiceLoop() {
+  if (!conversationId) return;
+  voiceLoop = true;
+  document.getElementById('micBtn').classList.add('recording');
+  await listenOnce();
+}
+
+// One full cycle: listen → detect silence → send STT → bot reply → speak → repeat
+async function listenOnce() {
+  if (!voiceLoop) return;
+  setStatus('🎙️ Listening…');
   try {
-    const res = await fetch(`${API}/api/v1/stt/transcribe`, {method:'POST', body:form});
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    vadStream = stream;
+
+    // Setup AudioContext for volume analysis
+    audioCtx  = new (window.AudioContext || window.webkitAudioContext)();
+    analyser  = audioCtx.createAnalyser();
+    analyser.fftSize = 512;
+    const src = audioCtx.createMediaStreamSource(stream);
+    src.connect(analyser);
+
+    audioChunks = [];
+    const mimeType = MediaRecorder.isTypeSupported('audio/webm;codecs=opus')
+      ? 'audio/webm;codecs=opus' : 'audio/webm';
+    mediaRecorder = new MediaRecorder(stream, { mimeType });
+    mediaRecorder.ondataavailable = e => { if (e.data.size > 0) audioChunks.push(e.data); };
+    mediaRecorder.start(100); // collect in 100ms chunks
+    isRecording = true;
+
+    // VAD: watch for voice start then silence
+    await waitForSpeechThenSilence();
+
+    // Stop recording
+    await stopRecordingVAD();
+
+    if (!voiceLoop) return;
+
+    // Send to STT → bot reply → TTS
+    if (audioChunks.length > 0) {
+      setStatus('Processing speech…');
+      const transcript = await transcribeAudio();
+      if (transcript) {
+        await sendMessage(transcript);
+      } else {
+        setStatus('Could not hear clearly — listening again…');
+      }
+    }
+
+    // Loop again after TTS finishes (or is interrupted)
+    if (voiceLoop) {
+      await listenOnce();
+    }
+  } catch (e) {
+    console.error('VAD error:', e);
+    showToast('Microphone error: ' + e.message, 'error');
+    stopVoiceLoop();
+  }
+}
+
+// Returns a promise that resolves once we hear speech then detect silence
+function waitForSpeechThenSilence() {
+  const data = new Uint8Array(analyser.frequencyBinCount);
+  let speechDetected = false;
+  let silenceStart   = null;
+
+  return new Promise(resolve => {
+    function tick() {
+      if (!voiceLoop) { resolve(); return; }
+      analyser.getByteTimeDomainData(data);
+      // Compute RMS level
+      let sum = 0;
+      for (let i = 0; i < data.length; i++) {
+        const v = (data[i] - 128) / 128;
+        sum += v * v;
+      }
+      const rms = Math.sqrt(sum / data.length) * 100;
+
+      if (rms > SILENCE_THRESHOLD) {
+        speechDetected = true;
+        silenceStart   = null;
+        setStatus('🎙️ Listening… (speaking detected)');
+      } else if (speechDetected) {
+        if (!silenceStart) silenceStart = Date.now();
+        const elapsed = Date.now() - silenceStart;
+        const pct = Math.min((elapsed / SILENCE_DELAY_MS) * 100, 100);
+        setStatus(`🤫 Silence detected… sending in ${Math.ceil((SILENCE_DELAY_MS - elapsed) / 1000)}s`);
+        if (elapsed >= SILENCE_DELAY_MS) { resolve(); return; }
+      }
+      vadAnimId = requestAnimationFrame(tick);
+    }
+    tick();
+  });
+}
+
+function stopRecordingVAD() {
+  return new Promise(resolve => {
+    if (vadAnimId) { cancelAnimationFrame(vadAnimId); vadAnimId = null; }
+    if (audioCtx)  { audioCtx.close().catch(() => {}); audioCtx = null; }
+    if (isRecording && mediaRecorder && mediaRecorder.state !== 'inactive') {
+      mediaRecorder.onstop = resolve;
+      mediaRecorder.stop();
+      if (vadStream) { vadStream.getTracks().forEach(t => t.stop()); vadStream = null; }
+      isRecording = false;
+    } else {
+      if (vadStream) { vadStream.getTracks().forEach(t => t.stop()); vadStream = null; }
+      resolve();
+    }
+  });
+}
+
+function stopCurrentTTS() {
+  if (currentTTS) {
+    currentTTS.pause();
+    currentTTS.src = '';
+    currentTTS = null;
+  }
+}
+
+async function transcribeAudio() {
+  const blob = new Blob(audioChunks, { type: 'audio/webm' });
+  const form = new FormData();
+  form.append('audio', blob, 'recording.webm');
+  try {
+    const res  = await fetch(`${API}/api/v1/stt/transcribe`, { method: 'POST', body: form });
     const data = await res.json();
-    if (data.transcript?.trim()) await sendMessage(data.transcript.trim());
-    else showToast('Could not understand audio. Please try again.','error');
-  } catch(e) { showToast('STT error: '+e.message,'error'); }
+    return data.transcript?.trim() || null;
+  } catch (e) {
+    console.error('STT error:', e);
+    return null;
+  }
 }
 
 // ── TTS ───────────────────────────────────────────────────────────────────────
 async function speak(text) {
   if (!voiceMode) return;
+  stopCurrentTTS(); // stop any previous audio
   try {
-    const res = await fetch(`${API}/api/v1/tts/speak`, {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({text}),
+    const res  = await fetch(`${API}/api/v1/tts/speak`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text }),
     });
     const blob = await res.blob();
-    new Audio(URL.createObjectURL(blob)).play();
-  } catch(e) { console.warn('TTS:', e); }
+    const audio = new Audio(URL.createObjectURL(blob));
+    currentTTS = audio;
+    setStatus('🤖 Speaking…');
+    await new Promise(resolve => {
+      audio.onended  = resolve;
+      audio.onerror  = resolve;
+      audio.play().catch(resolve);
+    });
+    currentTTS = null;
+  } catch (e) { console.warn('TTS:', e); }
 }

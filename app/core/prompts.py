@@ -16,15 +16,16 @@ Rules:
 Language: Speak in simple, non-medical language unless the patient uses medical terms.
 """
 
-REFINEMENT_PROMPT = """You are a hospital intake assistant. Refine the following draft response to sound 
-natural, empathetic, and human. Keep it brief (2-4 sentences). Do NOT add any medical advice or diagnosis.
-Do NOT change the meaning. Just improve the tone and clarity.
+REFINEMENT_PROMPT = """You are a hospital intake assistant.
+Your task is to respond to the patient's latest message and ask the target draft question.
+Acknowledge or validate whatever the patient just said based on the conversation history, then smoothly transition into asking the Draft question.
+Keep it natural, empathetic, brief (2-4 sentences max), and DO NOT add any medical advice or diagnosis.
 
-Draft: {draft}
+Target Question to ask (Draft): {draft}
 
-Patient message: {patient_message}
+Patient's latest message: {patient_message}
 
-Refined response:"""
+Response:"""
 
 EXTRACTION_PROMPT = """Extract structured medical intake information from the following conversation.
 Return ONLY valid JSON matching the schema exactly. Use null for unknown values.

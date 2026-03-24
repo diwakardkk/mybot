@@ -1,193 +1,213 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Hospital Intake Bot | AI Nurse Assistant</title>
-  <meta name="description" content="AI-powered hospital intake assistant — voice and text chat with a smart nurse bot."/>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="/static/style.css"/>
+  <meta name="description"
+    content="AI-powered hospital intake assistant — voice and text chat with a smart nurse bot." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="/static/style.css" />
 </head>
+
 <body>
-<div class="app">
+  <div class="app">
 
-  <!-- ── SIDEBAR ──────────────────────────────────────────────────────── -->
-  <aside class="sidebar">
-    <div class="sidebar-header">
-      <div class="logo">
-        <span class="logo-icon">🏥</span>
-        <span class="logo-text">NurseBot</span>
-      </div>
-      <p class="logo-sub">AI Hospital Intake</p>
-    </div>
-
-    <!-- Step 1: Start Form -->
-    <div id="patientForm">
-      <h3 class="sidebar-section-title">Start Session</h3>
-      <div class="form-group">
-        <label for="patientName">Your Name (optional)</label>
-        <input type="text" id="patientName" placeholder="e.g. John Smith" autocomplete="off"/>
-      </div>
-      <div class="form-group toggle-row">
-        <label for="voiceToggle">Voice Mode</label>
-        <label class="toggle">
-          <input type="checkbox" id="voiceToggle"/>
-          <span class="slider"></span>
-        </label>
-      </div>
-      <button class="btn-primary" id="startBtn" onclick="goToVitalsStep()">
-        <span>Begin Intake</span>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </button>
-    </div>
-
-    <!-- Step 2/ Session Active Info -->
-    <div class="session-info hidden" id="sessionInfo">
-      <div class="session-badge">
-        <span class="dot active"></span>
-        <span>Session Active</span>
-      </div>
-      <div class="info-row"><span class="label">Patient</span><span id="sidePatientName">—</span></div>
-      <div class="info-row"><span class="label">State</span><span id="sideState" class="state-badge">—</span></div>
-      <div class="info-row">
-        <span class="label">Questions</span>
-        <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar" style="width:0%"></div></div>
-        <span id="progressLabel">0/7</span>
-      </div>
-      <button class="btn-secondary" onclick="openReport()">📊 Full Report</button>
-      <button class="btn-danger" onclick="endAndReport()">✅ End &amp; Generate Report</button>
-    </div>
-
-    <div class="sidebar-footer"><span>Powered by OpenAI GPT-4o</span></div>
-  </aside>
-
-  <!-- ── MAIN AREA ─────────────────────────────────────────────────────── -->
-  <main class="chat-main">
-    <header class="chat-header">
-      <div class="header-left">
-        <h1>AI Nurse Assistant</h1>
-        <span class="status-text" id="statusText">Ready to start</span>
-      </div>
-      <div class="header-right">
-        <div class="voice-indicator hidden" id="voiceIndicator">
-          <span class="pulse-ring"></span><span>Voice</span>
+    <!-- ── SIDEBAR ──────────────────────────────────────────────────────── -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <span class="logo-icon">🏥</span>
+          <span class="logo-text">Dr Nikky</span>
         </div>
-      </div>
-    </header>
-
-    <div class="chat-body" id="chatBody">
-
-      <!-- ── VIEW A: Welcome ───────────────────────────────────────────── -->
-      <div class="welcome-screen" id="welcomeScreen">
-        <div class="welcome-icon">🏥</div>
-        <h2>Welcome to Hospital Intake</h2>
-        <p>I'll guide you through a brief intake process before your doctor visit.<br/>Enter your name on the left and click <strong>Begin Intake</strong> to start.</p>
-        <div class="feature-pills">
-          <span>🎙️ Voice Input</span>
-          <span>🧠 AI-Powered</span>
-          <span>📋 Smart Summary</span>
-          <span>🔒 Confidential</span>
-        </div>
+        <p class="logo-sub">Hospital Intake Assistant</p>
       </div>
 
-      <!-- ── VIEW B: Vitals Step ───────────────────────────────────────── -->
-      <div class="vitals-step hidden" id="vitalsStep">
-        <div class="vitals-step-header">
-          <div class="step-badge">Step 1 of 2</div>
-          <h2>📊 Enter Patient Vitals</h2>
-          <p>Please enter the measured vitals below. All fields are optional — you can update these later.</p>
+      <!-- Step 1: Start Form -->
+      <div id="patientForm">
+        <h3 class="sidebar-section-title">Start Session</h3>
+        <div class="form-group">
+          <label for="patientName">Your Name (optional)</label>
+          <input type="text" id="patientName" placeholder="e.g. John Smith" autocomplete="off" />
         </div>
-        <div class="vitals-step-grid">
-          <div class="vital-input-card">
-            <div class="vic-icon">❤️</div>
-            <label>Blood Pressure (Systolic)</label>
-            <div class="vic-row"><input type="number" id="vBpSys" placeholder="120" min="60" max="250"/><span class="vic-unit">mmHg</span></div>
+        <div class="form-group toggle-row">
+          <label for="voiceToggle">Voice Mode</label>
+          <label class="toggle">
+            <input type="checkbox" id="voiceToggle" />
+            <span class="slider"></span>
+          </label>
+        </div>
+        <button class="btn-primary" id="startBtn" onclick="goToVitalsStep()">
+          <span>Begin Intake</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Step 2/ Session Active Info -->
+      <div class="session-info hidden" id="sessionInfo">
+        <div class="session-badge">
+          <span class="dot active"></span>
+          <span>Session Active</span>
+        </div>
+        <div class="info-row"><span class="label">Patient</span><span id="sidePatientName">—</span></div>
+        <div class="info-row"><span class="label">State</span><span id="sideState" class="state-badge">—</span></div>
+        <div class="info-row">
+          <span class="label">Questions</span>
+          <div class="progress-bar-wrap">
+            <div class="progress-bar" id="progressBar" style="width:0%"></div>
           </div>
-          <div class="vital-input-card">
-            <div class="vic-icon">💙</div>
-            <label>Blood Pressure (Diastolic)</label>
-            <div class="vic-row"><input type="number" id="vBpDia" placeholder="80" min="40" max="150"/><span class="vic-unit">mmHg</span></div>
-          </div>
-          <div class="vital-input-card">
-            <div class="vic-icon">🩸</div>
-            <label>Blood Sugar</label>
-            <div class="vic-row"><input type="number" id="vSugar" placeholder="90" min="30" max="600"/><span class="vic-unit">mg/dL</span></div>
-          </div>
-          <div class="vital-input-card">
-            <div class="vic-icon">⚖️</div>
-            <label>Weight</label>
-            <div class="vic-row"><input type="number" id="vWeight" placeholder="70" min="1" max="300" step="0.1"/><span class="vic-unit">kg</span></div>
-          </div>
-          <div class="vital-input-card">
-            <div class="vic-icon">📏</div>
-            <label>Height</label>
-            <div class="vic-row"><input type="number" id="vHeight" placeholder="170" min="50" max="250"/><span class="vic-unit">cm</span></div>
-          </div>
-          <div class="vital-input-card bmi-card" id="bmiCard">
-            <div class="vic-icon">🧮</div>
-            <label>BMI (Auto-calculated)</label>
-            <div class="bmi-display" id="bmiDisplay">—</div>
-            <div class="bmi-cat" id="bmiCat"></div>
-          </div>
-          <div class="vital-input-card">
-            <div class="vic-icon">🌡️</div>
-            <label>Temperature</label>
-            <div class="vic-row"><input type="number" id="vTemp" placeholder="37.0" min="30" max="44" step="0.1"/><span class="vic-unit">°C</span></div>
-          </div>
-          <div class="vital-input-card">
-            <div class="vic-icon">💓</div>
-            <label>Pulse Rate</label>
-            <div class="vic-row"><input type="number" id="vPulse" placeholder="72" min="30" max="250"/><span class="vic-unit">bpm</span></div>
+          <span id="progressLabel">0/7</span>
+        </div>
+        <button class="btn-secondary" onclick="openReport()">📊 Full Report</button>
+        <button class="btn-danger" onclick="endAndReport()">✅ End &amp; Generate Report</button>
+      </div>
+
+      <div class="sidebar-footer"><span>Powered by OpenAI GPT-4o</span></div>
+    </aside>
+
+    <!-- ── MAIN AREA ─────────────────────────────────────────────────────── -->
+    <main class="chat-main">
+      <header class="chat-header">
+        <div class="header-left">
+          <h1>Dr Nikky </h1>
+          <span class="status-text" id="statusText">Ready to start</span>
+        </div>
+        <div class="header-right">
+          <div class="voice-indicator hidden" id="voiceIndicator">
+            <span class="pulse-ring"></span><span>Voice</span>
           </div>
         </div>
-        <div class="vitals-step-actions">
-          <button class="btn-secondary" onclick="skipVitals()">Skip — Enter Later</button>
-          <button class="btn-primary" id="continueBtn" onclick="startSessionFromVitals()">
-            <span>Continue to Chat</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
+      </header>
+
+      <div class="chat-body" id="chatBody">
+
+        <!-- ── VIEW A: Welcome ───────────────────────────────────────────── -->
+        <div class="welcome-screen" id="welcomeScreen">
+          <div class="welcome-icon">🏥</div>
+          <h2>Welcome to Hospital Intake</h2>
+          <p>I'll guide you through a brief intake process before your doctor visit.<br />Enter your name on the left
+            and click <strong>Begin Intake</strong> to start.</p>
+          <div class="feature-pills">
+            <span>🎙️ Voice Input</span>
+            <span>🧠 AI-Powered</span>
+            <span>📋 Smart Summary</span>
+            <span>🔒 Confidential</span>
+          </div>
         </div>
+
+        <!-- ── VIEW B: Vitals Step ───────────────────────────────────────── -->
+        <div class="vitals-step hidden" id="vitalsStep">
+          <div class="vitals-step-header">
+            <div class="step-badge">Step 1 of 2</div>
+            <h2>📊 Enter Patient Vitals</h2>
+            <p>Please enter the measured vitals below. All fields are optional — you can update these later.</p>
+          </div>
+          <div class="vitals-step-grid">
+            <div class="vital-input-card">
+              <div class="vic-icon">❤️</div>
+              <label>Blood Pressure (Systolic)</label>
+              <div class="vic-row"><input type="number" id="vBpSys" placeholder="120" min="60" max="250" /><span
+                  class="vic-unit">mmHg</span></div>
+            </div>
+            <div class="vital-input-card">
+              <div class="vic-icon">💙</div>
+              <label>Blood Pressure (Diastolic)</label>
+              <div class="vic-row"><input type="number" id="vBpDia" placeholder="80" min="40" max="150" /><span
+                  class="vic-unit">mmHg</span></div>
+            </div>
+            <div class="vital-input-card">
+              <div class="vic-icon">🩸</div>
+              <label>Blood Sugar</label>
+              <div class="vic-row"><input type="number" id="vSugar" placeholder="90" min="30" max="600" /><span
+                  class="vic-unit">mg/dL</span></div>
+            </div>
+            <div class="vital-input-card">
+              <div class="vic-icon">⚖️</div>
+              <label>Weight</label>
+              <div class="vic-row"><input type="number" id="vWeight" placeholder="70" min="1" max="300"
+                  step="0.1" /><span class="vic-unit">kg</span></div>
+            </div>
+            <div class="vital-input-card">
+              <div class="vic-icon">📏</div>
+              <label>Height</label>
+              <div class="vic-row"><input type="number" id="vHeight" placeholder="170" min="50" max="250" /><span
+                  class="vic-unit">cm</span></div>
+            </div>
+            <div class="vital-input-card bmi-card" id="bmiCard">
+              <div class="vic-icon">🧮</div>
+              <label>BMI (Auto-calculated)</label>
+              <div class="bmi-display" id="bmiDisplay">—</div>
+              <div class="bmi-cat" id="bmiCat"></div>
+            </div>
+            <div class="vital-input-card">
+              <div class="vic-icon">🌡️</div>
+              <label>Temperature</label>
+              <div class="vic-row"><input type="number" id="vTemp" placeholder="37.0" min="30" max="44"
+                  step="0.1" /><span class="vic-unit">°C</span></div>
+            </div>
+            <div class="vital-input-card">
+              <div class="vic-icon">💓</div>
+              <label>Pulse Rate</label>
+              <div class="vic-row"><input type="number" id="vPulse" placeholder="72" min="30" max="250" /><span
+                  class="vic-unit">bpm</span></div>
+            </div>
+          </div>
+          <div class="vitals-step-actions">
+            <button class="btn-secondary" onclick="skipVitals()">Skip — Enter Later</button>
+            <button class="btn-primary" id="continueBtn" onclick="startSessionFromVitals()">
+              <span>Continue to Chat</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- ── VIEW C: Chat ──────────────────────────────────────────────── -->
+        <div id="messages" style="display:none"></div>
       </div>
 
-      <!-- ── VIEW C: Chat ──────────────────────────────────────────────── -->
-      <div id="messages" style="display:none"></div>
-    </div>
+      <!-- Emergency Banner -->
+      <div class="emergency-banner hidden" id="emergencyBanner">
+        ⚠️ <strong>EMERGENCY DETECTED</strong> — Medical staff has been alerted. Please remain calm.
+      </div>
 
-    <!-- Emergency Banner -->
-    <div class="emergency-banner hidden" id="emergencyBanner">
-      ⚠️ <strong>EMERGENCY DETECTED</strong> — Medical staff has been alerted. Please remain calm.
-    </div>
-
-    <!-- Input Area -->
-    <div class="chat-input-area" id="inputArea" style="display:none">
-      <div class="input-wrap">
-        <textarea id="msgInput" placeholder="Type your message here..." rows="1"
-          onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
-        <div class="input-actions">
-          <button class="btn-mic" id="micBtn" onclick="toggleMic()" title="Voice input">
-            <svg id="micIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
-              <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
-              <line x1="12" y1="19" x2="12" y2="23"/>
-              <line x1="8" y1="23" x2="16" y2="23"/>
-            </svg>
-          </button>
-          <button class="btn-send" id="sendBtn" onclick="sendMessage()" title="Send">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <line x1="22" y1="2" x2="11" y2="13"/>
-              <polygon points="22 2 15 22 11 13 2 9 22 2"/>
-            </svg>
-          </button>
+      <!-- Input Area -->
+      <div class="chat-input-area" id="inputArea" style="display:none">
+        <div class="input-wrap">
+          <textarea id="msgInput" placeholder="Type your message here..." rows="1" onkeydown="handleKey(event)"
+            oninput="autoResize(this)"></textarea>
+          <div class="input-actions">
+            <button class="btn-mic" id="micBtn" onclick="toggleMic()" title="Voice input">
+              <svg id="micIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2">
+                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+                <line x1="12" y1="19" x2="12" y2="23" />
+                <line x1="8" y1="23" x2="16" y2="23" />
+              </svg>
+            </button>
+            <button class="btn-send" id="sendBtn" onclick="sendMessage()" title="Send">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="22" y1="2" x2="11" y2="13" />
+                <polygon points="22 2 15 22 11 13 2 9 22 2" />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-  </main>
-</div>
+    </main>
+  </div>
 
-<!-- Toast -->
-<div class="toast hidden" id="toast"></div>
+  <!-- Toast -->
+  <div class="toast hidden" id="toast"></div>
 
-<script src="/static/app.js"></script>
+  <script src="/static/app.js"></script>
 </body>
+
 </html>

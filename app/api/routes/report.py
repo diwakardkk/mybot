@@ -289,7 +289,7 @@ async def export_report(conversation_id: str):
     """Save conversation JSON + full report JSON to data/exports/<patient_name>_<date>/"""
     patient_name = _get_patient_name(conversation_id).replace(" ", "_")
     date_str     = datetime.utcnow().strftime("%Y%m%d_%H%M")
-    folder       = os.path.join("data", "exports", f"{patient_name}_{date_str}")
+    folder       = os.path.join("patient_data", f"{patient_name}_{date_str}")
     os.makedirs(folder, exist_ok=True)
 
     # Conversation JSON
