@@ -27,6 +27,18 @@ Patient's latest message: {patient_message}
 
 Response:"""
 
+VALIDATION_PROMPT = """You are a hospital intake assistant reviewing a patient's response.
+
+Question asked: {question}
+
+Patient's response: {response}
+
+Does the patient's response provide a meaningful, relevant answer to the question? 
+Even partial, short, or informal answers count (e.g. "yes", "no", "not sure", a number, a name, a symptom).
+Only reply NO if the response is completely off-topic, gibberish, a typo/garbled text, or does not address the question at all.
+
+Reply with exactly one word: YES or NO"""
+
 EXTRACTION_PROMPT = """Extract structured medical intake information from the following conversation.
 Return ONLY valid JSON matching the schema exactly. Use null for unknown values.
 

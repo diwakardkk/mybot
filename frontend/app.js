@@ -26,12 +26,14 @@ function skipVitals() {
 
 async function startSessionFromVitals() {
   // Collect vitals
-  const sys  = numVal('vBpSys'),   dia  = numVal('vBpDia');
-  const sug  = numVal('vSugar'),   wt   = numVal('vWeight');
-  const ht   = numVal('vHeight'),  temp = numVal('vTemp');
-  const pulse= numVal('vPulse');
-  pendingVitals = { bp_systolic:sys, bp_diastolic:dia, blood_sugar:sug,
-                    weight_kg:wt, height_cm:ht, temperature:temp, pulse };
+  const sys = numVal('vBpSys'), dia = numVal('vBpDia');
+  const sug = numVal('vSugar'), wt = numVal('vWeight');
+  const ht = numVal('vHeight'), temp = numVal('vTemp');
+  const pulse = numVal('vPulse');
+  pendingVitals = {
+    bp_systolic: sys, bp_diastolic: dia, blood_sugar: sug,
+    weight_kg: wt, height_cm: ht, temperature: temp, pulse
+  };
   await startSession();
 }
 
@@ -39,14 +41,14 @@ async function startSessionFromVitals() {
 async function startSession() {
   voiceMode = document.getElementById('voiceToggle').checked;
   const name = document.getElementById('patientName').value.trim() || null;
-  const btn  = document.getElementById('startBtn');
+  const btn = document.getElementById('startBtn');
   btn.disabled = true;
   setStatus('Starting session…');
 
   try {
     const res = await fetch(`${API}/api/v1/chat/start`, {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ patient_name: name, language:'en', voice_mode: voiceMode }),
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ patient_name: name, language: 'en', voice_mode: voiceMode }),
     });
     const data = await res.json();
     conversationId = data.conversation_id;
@@ -73,12 +75,12 @@ async function startSession() {
       const anyFilled = Object.values(pendingVitals).some(v => v !== null);
       if (anyFilled) {
         await fetch(`${API}/api/v1/report/vitals`, {
-          method:'POST', headers:{'Content-Type':'application/json'},
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ conversation_id: conversationId, ...pendingVitals }),
         });
       }
     }
-  } catch(e) {
+  } catch (e) {
     showToast('Could not connect to server. Is the backend running?', 'error');
     btn.disabled = false;
     setStatus('Error');
@@ -87,7 +89,7 @@ async function startSession() {
 
 // ── BMI Auto-Calculate ────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
-  ['vWeight','vHeight'].forEach(id => {
+  ['vWeight', 'vHeight'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.addEventListener('input', updateBMI);
   });
@@ -97,13 +99,13 @@ function updateBMI() {
   const wt = parseFloat(document.getElementById('vWeight')?.value);
   const ht = parseFloat(document.getElementById('vHeight')?.value);
   const disp = document.getElementById('bmiDisplay');
-  const cat  = document.getElementById('bmiCat');
+  const cat = document.getElementById('bmiCat');
   if (!disp || !cat) return;
   if (wt > 0 && ht > 0) {
-    const bmi = +(wt / ((ht/100)**2)).toFixed(1);
+    const bmi = +(wt / ((ht / 100) ** 2)).toFixed(1);
     disp.textContent = bmi;
-    const [label, color] = bmi < 18.5 ? ['Underweight','#f59e0b']
-      : bmi < 25 ? ['Normal','#22c55e'] : bmi < 30 ? ['Overweight','#f59e0b'] : ['Obese','#ef4444'];
+    const [label, color] = bmi < 18.5 ? ['Underweight', '#f59e0b']
+      : bmi < 25 ? ['Normal', '#22c55e'] : bmi < 30 ? ['Overweight', '#f59e0b'] : ['Obese', '#ef4444'];
     cat.textContent = label;
     cat.style.color = color;
   } else {
@@ -116,7 +118,7 @@ function updateBMI() {
 async function sendMessage(textOverride) {
   if (!conversationId) return;
   const input = document.getElementById('msgInput');
-  const text  = textOverride || input.value.trim();
+  const text = textOverride || input.value.trim();
   if (!text) return;
   input.value = ''; autoResize(input);
   appendMessage('user', text);
@@ -126,7 +128,7 @@ async function sendMessage(textOverride) {
   try {
     const res = await fetch(`${API}/api/v1/chat/message`, {
       method: 'POST',
-      headers: {'Content-Type':'application/json', 'X-Conversation-Id': conversationId},
+      headers: { 'Content-Type': 'application/json', 'X-Conversation-Id': conversationId },
       body: JSON.stringify({ conversation_id: conversationId, message: text }),
     });
     const data = await res.json();
@@ -137,7 +139,7 @@ async function sendMessage(textOverride) {
     if (data.is_emergency) document.getElementById('emergencyBanner').classList.remove('hidden');
     setStatus(data.state === 'closed' ? 'Intake complete' : 'Listening…');
     if (voiceMode) await speak(data.response);
-  } catch(e) {
+  } catch (e) {
     hideTyping();
     showToast('Could not reach server. Please try again.', 'error');
     setStatus('Error');
@@ -150,8 +152,8 @@ async function endAndReport() {
   setStatus('Generating report…');
   // Export to local folder
   try {
-    await fetch(`${API}/api/v1/report/export/${conversationId}`, { method:'POST' });
-  } catch(e) { /* non-critical */ }
+    await fetch(`${API}/api/v1/report/export/${conversationId}`, { method: 'POST' });
+  } catch (e) { /* non-critical */ }
   openReport();
   showToast('✓ Report generated & saved locally', 'success');
 }
@@ -162,20 +164,20 @@ function openReport() {
 }
 
 // ── Message Rendering ─────────────────────────────────────────────────────────
-function appendMessage(role, text, emergency=false) {
-  const cont  = document.getElementById('messages');
-  const wrap  = document.createElement('div');
+function appendMessage(role, text, emergency = false) {
+  const cont = document.getElementById('messages');
+  const wrap = document.createElement('div');
   wrap.className = `msg ${role}${emergency ? ' emergency' : ''}`;
   const avatar = document.createElement('div');
   avatar.className = 'msg-avatar';
   avatar.textContent = role === 'user' ? '🙋' : '🤖';
-  const inner  = document.createElement('div');
+  const inner = document.createElement('div');
   const bubble = document.createElement('div');
   bubble.className = 'msg-bubble';
   bubble.textContent = text;
   const time = document.createElement('div');
   time.className = 'msg-time';
-  time.textContent = new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+  time.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   inner.append(bubble, time);
   wrap.append(avatar, inner);
   cont.appendChild(wrap);
@@ -200,33 +202,33 @@ function hideTyping() { if (typingEl) { typingEl.remove(); typingEl = null; } }
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function scrollBottom() { const b = document.getElementById('chatBody'); b.scrollTop = b.scrollHeight; }
 function setStatus(msg) { document.getElementById('statusText').textContent = msg; }
-function updateState(state) { document.getElementById('sideState').textContent = (state||'').replace('_',' '); }
+function updateState(state) { document.getElementById('sideState').textContent = (state || '').replace('_', ' '); }
 function updateProgress() {
-  const pct = Math.min((questionsAsked/7)*100, 100);
+  const pct = Math.min((questionsAsked / 7) * 100, 100);
   document.getElementById('progressBar').style.width = pct + '%';
   document.getElementById('progressLabel').textContent = `${questionsAsked}/7`;
 }
-function handleKey(e) { if (e.key==='Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } }
-function autoResize(el) { el.style.height='auto'; el.style.height = Math.min(el.scrollHeight,160)+'px'; }
-function numVal(id) { const v=parseFloat(document.getElementById(id)?.value); return isNaN(v)?null:v; }
+function handleKey(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } }
+function autoResize(el) { el.style.height = 'auto'; el.style.height = Math.min(el.scrollHeight, 160) + 'px'; }
+function numVal(id) { const v = parseFloat(document.getElementById(id)?.value); return isNaN(v) ? null : v; }
 
-function showToast(msg, type='') {
+function showToast(msg, type = '') {
   const t = document.getElementById('toast');
   t.textContent = msg;
-  t.className = `toast${type ? ' '+type : ''}`;
+  t.className = `toast${type ? ' ' + type : ''}`;
   t.classList.remove('hidden');
   setTimeout(() => t.classList.add('hidden'), 3500);
 }
 
 // ── Continuous Voice Mode (VAD) ───────────────────────────────────────────────
-let   audioCtx    = null;
-let   analyser    = null;
-let   vadStream   = null;
-let   vadAnimId   = null;
-let   currentTTS  = null;   // current playing Audio object
-let   voiceLoop   = false;  // is the continuous loop active?
+let audioCtx = null;
+let analyser = null;
+let vadStream = null;
+let vadAnimId = null;
+let currentTTS = null;   // current playing Audio object
+let voiceLoop = false;  // is the continuous loop active?
 const SILENCE_THRESHOLD = 8;   // RMS level below which we consider silence
-const SILENCE_DELAY_MS  = 1800; // ms of silence before auto-stop
+const SILENCE_DELAY_MS = 1800; // ms of silence before auto-stop
 
 // One-click toggle for mic
 async function toggleMic() {
@@ -261,8 +263,8 @@ async function listenOnce() {
     vadStream = stream;
 
     // Setup AudioContext for volume analysis
-    audioCtx  = new (window.AudioContext || window.webkitAudioContext)();
-    analyser  = audioCtx.createAnalyser();
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    analyser = audioCtx.createAnalyser();
     analyser.fftSize = 512;
     const src = audioCtx.createMediaStreamSource(stream);
     src.connect(analyser);
@@ -309,7 +311,7 @@ async function listenOnce() {
 function waitForSpeechThenSilence() {
   const data = new Uint8Array(analyser.frequencyBinCount);
   let speechDetected = false;
-  let silenceStart   = null;
+  let silenceStart = null;
 
   return new Promise(resolve => {
     function tick() {
@@ -325,7 +327,7 @@ function waitForSpeechThenSilence() {
 
       if (rms > SILENCE_THRESHOLD) {
         speechDetected = true;
-        silenceStart   = null;
+        silenceStart = null;
         setStatus('🎙️ Listening… (speaking detected)');
       } else if (speechDetected) {
         if (!silenceStart) silenceStart = Date.now();
@@ -343,7 +345,7 @@ function waitForSpeechThenSilence() {
 function stopRecordingVAD() {
   return new Promise(resolve => {
     if (vadAnimId) { cancelAnimationFrame(vadAnimId); vadAnimId = null; }
-    if (audioCtx)  { audioCtx.close().catch(() => {}); audioCtx = null; }
+    if (audioCtx) { audioCtx.close().catch(() => { }); audioCtx = null; }
     if (isRecording && mediaRecorder && mediaRecorder.state !== 'inactive') {
       mediaRecorder.onstop = resolve;
       mediaRecorder.stop();
@@ -369,7 +371,7 @@ async function transcribeAudio() {
   const form = new FormData();
   form.append('audio', blob, 'recording.webm');
   try {
-    const res  = await fetch(`${API}/api/v1/stt/transcribe`, { method: 'POST', body: form });
+    const res = await fetch(`${API}/api/v1/stt/transcribe`, { method: 'POST', body: form });
     const data = await res.json();
     return data.transcript?.trim() || null;
   } catch (e) {
@@ -383,7 +385,7 @@ async function speak(text) {
   if (!voiceMode) return;
   stopCurrentTTS(); // stop any previous audio
   try {
-    const res  = await fetch(`${API}/api/v1/tts/speak`, {
+    const res = await fetch(`${API}/api/v1/tts/speak`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text }),
@@ -393,8 +395,8 @@ async function speak(text) {
     currentTTS = audio;
     setStatus('🤖 Speaking…');
     await new Promise(resolve => {
-      audio.onended  = resolve;
-      audio.onerror  = resolve;
+      audio.onended = resolve;
+      audio.onerror = resolve;
       audio.play().catch(resolve);
     });
     currentTTS = null;
