@@ -30,7 +30,8 @@ class PatientSession(BaseModel):
     voice_mode: bool = False
     state: ConversationState = ConversationState.greeting
     turns: List[ConversationTurn] = Field(default_factory=list)
-    questions_asked: List[str] = Field(default_factory=list)  # list of question IDs
+    questions_asked: List[str] = Field(default_factory=list)  # list of answered question IDs
+    pending_question_id: Optional[str] = None  # question currently awaiting a valid answer
     created_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: datetime = Field(default_factory=datetime.utcnow)
     is_active: bool = True

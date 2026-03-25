@@ -1,0 +1,63 @@
+{
+  "conversation_id": "1139d1db-7064-4c3d-b730-2e1f22734227",
+  "patient_name": "Diwakar",
+  "age": "30",
+  "gender": "Male",
+  "generated_at": "2026-03-24T18:25:06.365546",
+  "summary": {
+    "patient_name": "Diwakar",
+    "age": "30",
+    "gender": "Male",
+    "chief_complaint": "\u0938\u0930\u0926\u0930\u094d\u0927",
+    "duration": "\u092a\u093f\u091b\u0932\u0947 \u0926\u094b \u0939\u092b\u094d\u0924\u0947",
+    "medications": [
+      "\u0928\u0947\u0915\u094d\u0938\u093e \u0921\u0949\u092e"
+    ],
+    "allergies": [],
+    "summary_text": "Patient Diwakar, a 30-year-old male, presents with persistent headaches over the past two weeks, potentially indicating a chronic condition. Additionally, he reports intermittent voice changes, suggesting a possible underlying issue affecting the throat or vocal cords. He is currently taking Nexa Dom for headache relief. Risk level is assessed as medium.",
+    "questions_completed": 19,
+    "total_turns": 38
+  },
+  "analysis": {
+    "key_findings": [
+      "Patient is a 30-year-old male",
+      "Experiencing headaches for the past two weeks",
+      "Voice issues reported, with voice coming and going",
+      "Taking Nexa Dom for headache relief"
+    ],
+    "risk_level": "medium",
+    "risk_justification": "Persistent headaches and voice changes over two weeks warrant further evaluation.",
+    "chief_complaint_summary": "The patient reports persistent headaches for the past two weeks.",
+    "symptom_analysis": "The patient has been experiencing headaches for two weeks, which may indicate a chronic issue. The voice changes could suggest an underlying condition affecting the throat or vocal cords.",
+    "medication_concerns": "None identified",
+    "allergy_flags": "None reported",
+    "clinical_recommendations": [
+      "Conduct a thorough examination to assess the cause of headaches",
+      "Evaluate the patient's throat and vocal cords for any abnormalities",
+      "Consider imaging studies if headaches persist or worsen",
+      "Review the patient's use of Nexa Dom and assess for any side effects",
+      "Advise the patient to monitor symptoms and report any new developments"
+    ],
+    "urgency": "routine",
+    "follow_up_suggested": true,
+    "suggested_follow_up_days": 15,
+    "red_flags": [],
+    "refined_summary": "Patient Diwakar, a 30-year-old male, presents with persistent headaches over the past two weeks, potentially indicating a chronic condition. Additionally, he reports intermittent voice changes, suggesting a possible underlying issue affecting the throat or vocal cords. He is currently taking Nexa Dom for headache relief. Risk level is assessed as medium."
+  },
+  "vitals": {
+    "conversation_id": "1139d1db-7064-4c3d-b730-2e1f22734227",
+    "bp_systolic": 129.0,
+    "bp_diastolic": 78.0,
+    "blood_sugar": 78.0,
+    "weight_kg": 78.0,
+    "height_cm": 140.0,
+    "temperature": 40.0,
+    "pulse": 100,
+    "bmi_value": 39.8,
+    "bp_category_label": "Elevated",
+    "sugar_category_label": "Normal",
+    "bmi_category_label": "Obese",
+    "recorded_at": null
+  },
+  "recommendation": {}
+}
