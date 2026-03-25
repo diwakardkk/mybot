@@ -20,6 +20,16 @@ class Settings(BaseSettings):
     openai_tts_voice: str = "alloy"
     openai_stt_model: str = "whisper-1"
 
+    # Speech backends
+    stt_backend: str = "openai"  # "openai" | "faster_whisper"
+    faster_whisper_model: str = "small"
+    faster_whisper_compute_type: str = "int8"
+
+    tts_backend: str = "openai"  # "openai" | "piper"
+    piper_binary: str = "piper"
+    piper_model_path: str = "./data/piper/en_US-amy-medium.onnx"
+    piper_sentence_silence: float = 0.05  # seconds pause between sentences
+
     # Vector store
     vector_store_path: str = "./data/vectorstore"
 
