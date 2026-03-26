@@ -26,12 +26,9 @@ venv/
 *.sqlite
 *.sqlite3
 data/exports/
-backend/data/exports/
-backend/nurse_bot.db
 
 # ── FAISS vectorstore (rebuild from source JSON on deploy) ─────────────
 data/vectorstore/
-backend/data/vectorstore/
 
 # ── Logs ────────────────────────────────────────────────────────────────
 *.log

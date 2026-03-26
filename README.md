@@ -1,69 +1,66 @@
-# Hospital Intake Bot — NurseBot AI
+# 🏥 Hospital Intake Bot — NurseBot AI
 
 An AI-powered hospital intake assistant built with FastAPI, LangChain, OpenAI GPT-4o, and a modern dark-mode web UI. Patients complete a structured intake form via voice or text chat; doctors receive a GPT-refined clinical report with vitals charts and recommendations.
 
-## Features
+## ✨ Features
 
-- Voice & Text Chat — STT (Whisper or faster-whisper) + TTS (OpenAI or Piper)
-- Vitals Input — BP, Sugar, Weight, Height, BMI (auto-calc), Temp, Pulse
-- AI Analysis — clinical reasoning with risk levels, key findings, red flags
-- GPT-Refined Report — polished professional language
-- PDF Export — browser print
-- Local File Save — conversation JSON + report JSON
-- Listen — TTS playback of full conversation
-- SQLite persistence + FAISS RAG over hospital knowledge
+- 🎙️ **Voice & Text Chat** — STT (Whisper) + TTS (OpenAI)
+- 📊 **Vitals Input** — BP, Sugar, Weight, Height, BMI (auto-calc), Temp, Pulse
+- 🧠 **AI Analysis** — LangChain-style medical analysis with risk levels, key findings, red flags
+- 📝 **GPT-Refined Report** — Same clinical content, polished professional language
+- 📄 **PDF Export** — Save report as PDF via browser print
+- 💾 **Local File Save** — Exports conversation JSON + report JSON to folder
+- 🔊 **Listen** — TTS playback of full conversation
+- 🗄️ **SQLite Persistence** — Saves sessions, turns, vitals, recommendations
+- 🔍 **RAG** — FAISS vector store over hospital knowledge JSON
 
-## Quick Start (local)
+## 🚀 Quick Start
 
 ```bash
 # 1. Clone
 git clone https://github.com/YOUR_USERNAME/nurse-bot.git
 cd nurse-bot
 
-# 2. Install dependencies (backend)
-cd backend
+# 2. Install dependencies
 pip install -r requirements.txt
 
 # 3. Set up environment
 cp .env.example .env
-# Edit backend/.env and add your OPENAI_API_KEY
+# Edit .env and add your OPENAI_API_KEY
 
 # 4. Build the knowledge base (first time only)
 python -c "from app.rag.vectorstore import build_vectorstore; build_vectorstore()"
 
-# 5. Run backend
-uvicorn app.main:app --host 0.0.0.0 --port 8000
+# 5. Run
+uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-Open http://localhost:8000 (frontend is served by the backend).
+Open http://localhost:8000
 
-## Project Structure
+## 📁 Project Structure
 
 ```
 nurse-bot/
-├── backend/
-│   ├── app/                  # FastAPI backend package
-│   │   ├── api/routes/       # chat, report, STT, TTS
-│   │   ├── core/             # config, logging, prompts, security
-│   │   ├── db/               # SQLAlchemy ORM, session & conversation repos
-│   │   ├── models/           # Pydantic models
-│   │   ├── rag/              # FAISS ingestion, chunking, embedding, retrieval
-│   │   └── services/         # conversation, extraction, report, TTS, STT
-│   ├── data/                 # vector store, audio, knowledge base
-│   │   └── source_json/hospital_knowledge.json
-│   ├── patient_data/         # exported conversations/reports
-│   ├── requirements.txt
-│   ├── .env.example / .env   # backend configuration
-│   ├── Dockerfile            # container build
-│   ├── Procfile              # process definition
-│   └── railway.toml          # Railway config
-├── frontend/                 # static web client
-│   ├── index.html / app.js / style.css
-│   └── report.html / report.js / report.css
-└── README.md
+├── app/
+│   ├── api/routes/       # FastAPI routes (chat, report, STT, TTS)
+│   ├── core/             # Config, logging, prompts, security
+│   ├── db/               # SQLAlchemy ORM, session & conversation repos
+│   ├── models/           # Pydantic models
+│   ├── rag/              # FAISS ingestion, chunking, embedding, retrieval
+│   └── services/         # Conversation, extraction, report, TTS, STT
+├── data/
+│   ├── seed_questions.json
+│   └── source_json/hospital_knowledge.json
+├── frontend/
+│   ├── index.html        # Chat UI (vitals step + chat)
+│   ├── report.html       # Patient report page (charts, PDF)
+│   ├── app.js / report.js
+│   └── style.css / report.css
+├── .env.example
+└── requirements.txt
 ```
 
-## Environment Variables (backend/.env)
+## 🔑 Environment Variables
 
 | Variable | Description |
 |---|---|
@@ -71,13 +68,22 @@ nurse-bot/
 | `DATABASE_URL` | SQLite path (default: `sqlite:///./data/nurse_bot.db`) |
 | `OPENAI_CHAT_MODEL` | Model name (default: `gpt-4o`) |
 | `OPENAI_TTS_VOICE` | TTS voice (default: `alloy`) |
-| `STT_BACKEND` | `openai` or `faster_whisper` |
-| `TTS_BACKEND` | `openai` or `piper` |
 
-## Deploy (container)
+## ☁️ Deploy to Cloud Run
 
-Build context: repository root.
+```bash
+gcloud run deploy nurse-bot \
+  --source . \
+  --region europe-west1 \
+  --allow-unauthenticated \
+  --memory 2Gi \
+  --set-env-vars OPENAI_API_KEY=YOUR_KEY
 ```
-docker build -t nurse-bot -f backend/Dockerfile .
-docker run -p 8000:8000 --env-file backend/.env nurse-bot
-```
+
+## 🛠️ Tech Stack
+
+- **Backend**: FastAPI, SQLAlchemy, LangChain, OpenAI
+- **Frontend**: Vanilla HTML/CSS/JS, Chart.js
+- **AI**: GPT-4o (chat, extraction, refinement), Whisper (STT), TTS
+- **RAG**: FAISS + text-embedding-3-small
+- **DB**: SQLite (local) / PostgreSQL (cloud)
