@@ -1,0 +1,58 @@
+{
+  "conversation_id": "81ffc6fd-8f26-49f4-904b-7bc1fd5b3b8a",
+  "patient_name": "Unknown Patient",
+  "age": "0 year",
+  "gender": null,
+  "generated_at": "2026-03-24T19:24:46.750194",
+  "summary": {
+    "patient_name": "Unknown Patient",
+    "age": "0 year",
+    "gender": null,
+    "chief_complaint": null,
+    "duration": null,
+    "medications": [],
+    "allergies": [],
+    "summary_text": "Patient: Newborn, age 0, gender unspecified. Chief complaint: Inquiry regarding newborn's health status. Symptom analysis: No symptoms reported; additional information required for assessment. Risk level: Low. Key findings: Newborn; inquiry made on behalf of the patient; gender not provided.",
+    "questions_completed": 2,
+    "total_turns": 4
+  },
+  "analysis": {
+    "key_findings": [
+      "Patient is a newborn (0 years old)",
+      "Inquiry made on behalf of the newborn",
+      "Gender information not yet provided"
+    ],
+    "risk_level": "low",
+    "risk_justification": "No specific symptoms or concerns have been reported yet.",
+    "chief_complaint_summary": "Inquiry about a newborn's health status.",
+    "symptom_analysis": "No symptoms have been reported in the conversation. Further information is needed to assess any potential issues.",
+    "medication_concerns": "None identified",
+    "allergy_flags": "None reported",
+    "clinical_recommendations": [
+      "Confirm the newborn's gender and any immediate health concerns",
+      "Schedule a routine newborn check-up",
+      "Ensure the newborn is receiving appropriate vaccinations"
+    ],
+    "urgency": "routine",
+    "follow_up_suggested": true,
+    "suggested_follow_up_days": 30,
+    "red_flags": [],
+    "refined_summary": "Patient: Newborn, age 0, gender unspecified. Chief complaint: Inquiry regarding newborn's health status. Symptom analysis: No symptoms reported; additional information required for assessment. Risk level: Low. Key findings: Newborn; inquiry made on behalf of the patient; gender not provided."
+  },
+  "vitals": {
+    "conversation_id": "81ffc6fd-8f26-49f4-904b-7bc1fd5b3b8a",
+    "bp_systolic": null,
+    "bp_diastolic": null,
+    "blood_sugar": null,
+    "weight_kg": null,
+    "height_cm": null,
+    "temperature": null,
+    "pulse": null,
+    "bmi_value": null,
+    "bp_category_label": "",
+    "sugar_category_label": "",
+    "bmi_category_label": "",
+    "recorded_at": null
+  },
+  "recommendation": {}
+}

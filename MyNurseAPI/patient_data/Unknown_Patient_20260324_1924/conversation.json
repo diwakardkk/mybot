@@ -1,0 +1,26 @@
+{
+  "conversation_id": "81ffc6fd-8f26-49f4-904b-7bc1fd5b3b8a",
+  "patient_name": "Unknown_Patient",
+  "turns": [
+    {
+      "speaker": "patient",
+      "text": "i do not know",
+      "timestamp": "2026-03-24T19:23:47.294811"
+    },
+    {
+      "speaker": "assistant",
+      "text": "That's perfectly fine. I'm here to help you with whatever you need. Thank you for sharing that. Could you please tell me your age?",
+      "timestamp": "2026-03-24T19:23:50.348413"
+    },
+    {
+      "speaker": "patient",
+      "text": "0 year",
+      "timestamp": "2026-03-24T19:24:14.767262"
+    },
+    {
+      "speaker": "assistant",
+      "text": "Thank you for letting me know. Since you mentioned \"0 year,\" it sounds like you're inquiring on behalf of a newborn. What is the newborn's gender? (Male / Female / Other)",
+      "timestamp": "2026-03-24T19:24:17.267952"
+    }
+  ]
+}
