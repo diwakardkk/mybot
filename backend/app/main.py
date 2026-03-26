@@ -78,7 +78,7 @@ async def health():
 
 
 # ── Frontend Static Files ─────────────────────────────────────────────────────
-frontend_dir = os.path.join(os.path.dirname(__file__), "..", "frontend")
+frontend_dir = os.path.join(os.path.dirname(__file__), "..", "..", "frontend")
 if os.path.isdir(frontend_dir):
     app.mount("/static", StaticFiles(directory=frontend_dir), name="static")
 
