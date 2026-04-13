@@ -1,3 +1,4 @@
+from __future__ import annotations
 """
 TTS Service — converts text to speech using OpenAI TTS API or local Piper CLI.
 """
@@ -6,6 +7,7 @@ import subprocess
 import tempfile
 from typing import Optional, Tuple
 
+import httpx
 from openai import AsyncOpenAI
 from app.core.config import settings
 from app.core.logging import get_logger
@@ -33,6 +35,8 @@ async def synthesize_speech(
     chosen = (backend or settings.tts_backend).lower()
     if chosen == "piper":
         return _synthesize_piper(text), "audio/wav"
+    elif chosen == "elevenlabs":
+        return await _synthesize_elevenlabs(text, voice or settings.elevenlabs_voice_id), "audio/mpeg"
     return await _synthesize_openai(text, voice or settings.openai_tts_voice), "audio/mpeg"
 
 
@@ -52,6 +56,42 @@ async def _synthesize_openai(text: str, voice: str) -> bytes:
     except Exception as e:
         logger.error(f"[openai] TTS error: {e}")
         raise
+
+
+async def _synthesize_elevenlabs(text: str, voice_id: str) -> bytes:
+    if not settings.elevenlabs_api_key:
+        logger.warning("[elevenlabs] API key not found in settings, falling back to OpenAI.")
+        return await _synthesize_openai(text, settings.openai_tts_voice)
+    
+    url = f"https://api.elevenlabs.io/v1/text-to-speech/{voice_id}"
+    headers = {
+        "Accept": "audio/mpeg",
+        "Content-Type": "application/json",
+        "xi-api-key": settings.elevenlabs_api_key
+    }
+    data = {
+        "text": text,
+        "model_id": "eleven_turbo_v2",
+        "voice_settings": {
+            "stability": 0.5,
+            "similarity_boost": 0.75
+        }
+    }
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.post(url, json=data, headers=headers, timeout=30.0)
+            if response.status_code != 200:
+                logger.error(f"[elevenlabs] API error: {response.text}")
+                logger.warning("[elevenlabs] Falling back to OpenAI.")
+                return await _synthesize_openai(text, settings.openai_tts_voice)
+            
+            audio_bytes = response.content
+            logger.info(f"[elevenlabs] TTS generated {len(audio_bytes)} bytes for text: {text[:60]}")
+            return audio_bytes
+        except Exception as e:
+            logger.error(f"[elevenlabs] request error: {e}")
+            logger.warning("[elevenlabs] Falling back to OpenAI.")
+            return await _synthesize_openai(text, settings.openai_tts_voice)
 
 
 def _synthesize_piper(text: str) -> bytes:

@@ -1,3 +1,4 @@
+from __future__ import annotations
 """
 Conversation service — the main orchestration engine.
 Manages state machine, mandatory question flow, and response generation.

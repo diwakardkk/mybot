@@ -1,3 +1,4 @@
+from __future__ import annotations
 """
 STT Service — transcribes audio using OpenAI Whisper API or local faster-whisper.
 """

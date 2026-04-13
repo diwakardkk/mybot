@@ -31,17 +31,17 @@ async def lifespan(app: FastAPI):
     logger.info("SQLite database initialized")
 
     # Build or load vectorstore
-    vs = load_vectorstore()
-    if vs is None:
-        docs = load_knowledge_json()
-        if docs:
-            chunks = chunk_documents(docs)
-            build_vectorstore(chunks)
-            logger.info(f"Vectorstore built with {len(chunks)} chunks")
-        else:
-            logger.warning("No knowledge base documents found")
-    else:
-        logger.info("Vectorstore loaded from disk")
+    # vs = load_vectorstore()
+    # if vs is None:
+    #     docs = load_knowledge_json()
+    #     if docs:
+    #         chunks = chunk_documents(docs)
+    #         build_vectorstore(chunks)
+    #         logger.info(f"Vectorstore built with {len(chunks)} chunks")
+    #     else:
+    #         logger.warning("No knowledge base documents found")
+    # else:
+    #     logger.info("Vectorstore loaded from disk")
 
     yield
     logger.info("Shutting down...")

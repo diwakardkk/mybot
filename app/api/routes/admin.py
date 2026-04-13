@@ -1,3 +1,4 @@
+from __future__ import annotations
 """
 Admin routes — data ingestion trigger, audit log.
 """

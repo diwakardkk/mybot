@@ -1,3 +1,4 @@
+from __future__ import annotations
 """
 SQLAlchemy synchronous SQLite engine + session factory + init_db.
 """

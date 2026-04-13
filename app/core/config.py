@@ -1,3 +1,4 @@
+from __future__ import annotations
 from pydantic_settings import BaseSettings
 from typing import Optional
 from functools import lru_cache
@@ -25,7 +26,12 @@ class Settings(BaseSettings):
     faster_whisper_model: str = "small"
     faster_whisper_compute_type: str = "int8"
 
-    tts_backend: str = "openai"  # "openai" | "piper"
+    tts_backend: str = "elevenlabs"  # "openai" | "piper" | "elevenlabs"
+    
+    # ElevenLabs
+    elevenlabs_api_key: Optional[str] = None
+    elevenlabs_voice_id: str = "V6u967OGTN7MFfkktZvS"
+
     piper_binary: str = "piper"
     piper_model_path: str = "./data/piper/en_US-amy-medium.onnx"
     piper_sentence_silence: float = 0.05  # seconds pause between sentences

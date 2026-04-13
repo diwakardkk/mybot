@@ -1,3 +1,4 @@
+from __future__ import annotations
 """
 JSON knowledge base ingestion pipeline.
 Loads source JSON, normalizes it into LangChain Document objects.

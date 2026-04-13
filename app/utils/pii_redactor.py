@@ -1,3 +1,4 @@
+from __future__ import annotations
 """
 PII redactor — removes or masks sensitive personal information before logging.
 """

@@ -1,3 +1,4 @@
+from __future__ import annotations
 """
 Extraction service — uses OpenAI Structured Outputs to extract patient data as JSON.
 Extracts: name, age, gender, chief_complaint, duration, symptoms,

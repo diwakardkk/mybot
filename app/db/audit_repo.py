@@ -1,3 +1,4 @@
+from __future__ import annotations
 """
 Audit log repository — records every significant event for compliance.
 """

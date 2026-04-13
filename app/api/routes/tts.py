@@ -1,3 +1,4 @@
+from __future__ import annotations
 """
 TTS route — converts text to speech and returns audio bytes.
 """
@@ -11,10 +12,12 @@ router = APIRouter(prefix="/tts", tags=["text-to-speech"])
 logger = get_logger(__name__)
 
 
+from typing import Optional
+
 class TTSRequest(BaseModel):
     text: str
-    voice: str = "alloy"
-    backend: str | None = None
+    voice: Optional[str] = None
+    backend: Optional[str] = None
 
 
 @router.post("/speak")

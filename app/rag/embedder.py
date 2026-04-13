@@ -1,3 +1,4 @@
+from __future__ import annotations
 """
 Embedding wrapper using OpenAI text-embedding-3-small.
 """

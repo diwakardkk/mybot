@@ -1,3 +1,4 @@
+from __future__ import annotations
 """
 Report service — structured medical analysis + GPT narrative refinement.
 Two entry points:

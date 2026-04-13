@@ -1,3 +1,4 @@
+from __future__ import annotations
 """
 Refinement service — uses OpenAI to make draft responses sound natural.
 """
