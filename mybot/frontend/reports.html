@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -17,64 +18,72 @@
   <script src="/static/firebase-service.js"></script>
   <script src="/static/crypto-utils.js"></script>
 </head>
+
 <body>
-<div class="reports-page">
+  <div class="reports-page">
 
-  <!-- ── TOP BAR ── -->
-  <header class="reports-topbar">
-    <div class="reports-topbar-left">
-      <img src="/static/logo.png" alt="ZeptAI" />
-      <h1>Medical Reports</h1>
-    </div>
-    <button class="btn-back" onclick="window.location.href='/dashboard'">← Dashboard</button>
-  </header>
-
-  <!-- ── CONTENT ── -->
-  <div class="reports-content">
-
-    <!-- Banner -->
-    <div class="reports-banner" id="reportsBanner"></div>
-
-    <!-- Encryption badge -->
-    <div class="enc-badge">🔒 AES-GCM encrypted storage — only you can access your files</div>
-
-    <!-- Drop Zone -->
-    <div class="dropzone" id="dropzone"
-         ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)"
-         ondrop="handleDrop(event)" onclick="document.getElementById('fileInput').click()">
-      <div class="dz-icon">📁</div>
-      <div class="dz-title">Drag & drop files here</div>
-      <div class="dz-sub">or click to browse</div>
-      <div class="dz-types">Supported: PDF, PNG, JPG, JPEG, DOC, DOCX &nbsp;·&nbsp; Max 10 MB per file</div>
-      <button class="btn-browse" onclick="event.stopPropagation();document.getElementById('fileInput').click()">
-        Browse Files
-      </button>
-    </div>
-    <input type="file" id="fileInput" accept=".pdf,.png,.jpg,.jpeg,.doc,.docx"
-           multiple onchange="handleFileSelect(this.files)" />
-
-    <!-- Upload progress -->
-    <div class="upload-progress" id="uploadProgress">
-      <div class="up-row">
-        <div class="up-name" id="upFileName">Uploading…</div>
-        <div class="progress-bar-wrap"><div class="progress-bar" id="upBar" style="width:0%"></div></div>
-        <div class="up-pct" id="upPct">0%</div>
+    <!-- ── TOP BAR ── -->
+    <header class="reports-topbar">
+      <div class="reports-topbar-left">
+        <a href="/"><img src="/static/logo.png" alt="ZeptAI" /></a>
       </div>
-    </div>
+      <nav class="reports-topbar-nav">
+        <a class="reports-nav-item" href="/dashboard">🏠 Dashboard</a>
+        <a class="reports-nav-item" href="/intake">🤖 Start Intake</a>
+        <a class="reports-nav-item" href="/profile">👤 My Profile</a>
+        <a class="reports-nav-item active" href="/reports">📂 Reports</a>
+      </nav>
+      <button class="btn-back" onclick="window.location.href='/dashboard'">← Dashboard</button>
+    </header>
 
-    <!-- Reports list -->
-    <div class="section-title">Your Uploaded Reports</div>
-    <div class="reports-list" id="reportsList">
-      <div class="empty-state">
-        <div class="empty-icon">📋</div>
-        <p>Loading your reports…</p>
+    <!-- ── CONTENT ── -->
+    <div class="reports-content">
+
+      <!-- Banner -->
+      <div class="reports-banner" id="reportsBanner"></div>
+
+      <!-- Encryption badge -->
+      <div class="enc-badge">🔒 AES-GCM encrypted storage — only you can access your files</div>
+
+      <!-- Drop Zone -->
+      <div class="dropzone" id="dropzone" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)"
+        ondrop="handleDrop(event)" onclick="document.getElementById('fileInput').click()">
+        <div class="dz-icon">📁</div>
+        <div class="dz-title">Drag & drop files here</div>
+        <div class="dz-sub">or click to browse</div>
+        <div class="dz-types">Supported: PDF, PNG, JPG, JPEG, DOC, DOCX &nbsp;·&nbsp; Max 10 MB per file</div>
+        <button class="btn-browse" onclick="event.stopPropagation();document.getElementById('fileInput').click()">
+          Browse Files
+        </button>
       </div>
-    </div>
+      <input type="file" id="fileInput" accept=".pdf,.png,.jpg,.jpeg,.doc,.docx" multiple
+        onchange="handleFileSelect(this.files)" />
 
+      <!-- Upload progress -->
+      <div class="upload-progress" id="uploadProgress">
+        <div class="up-row">
+          <div class="up-name" id="upFileName">Uploading…</div>
+          <div class="progress-bar-wrap">
+            <div class="progress-bar" id="upBar" style="width:0%"></div>
+          </div>
+          <div class="up-pct" id="upPct">0%</div>
+        </div>
+      </div>
+
+      <!-- Reports list -->
+      <div class="section-title">Your Uploaded Reports</div>
+      <div class="reports-list" id="reportsList">
+        <div class="empty-state">
+          <div class="empty-icon">📋</div>
+          <p>Loading your reports…</p>
+        </div>
+      </div>
+
+    </div>
   </div>
-</div>
 
-<script src="/static/reports.js"></script>
-<script src="/static/auth-guard.js"></script>
+  <script src="/static/reports.js"></script>
+  <script src="/static/auth-guard.js"></script>
 </body>
+
 </html>

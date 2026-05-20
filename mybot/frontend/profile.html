@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -16,143 +17,154 @@
   <script src="/static/firebase-config.js"></script>
   <script src="/static/firebase-service.js"></script>
 </head>
+
 <body>
-<div class="profile-page">
+  <div class="profile-page">
 
-  <!-- ── TOP BAR ── -->
-  <header class="profile-topbar">
-    <div class="profile-topbar-left">
-      <img src="/static/logo.png" alt="ZeptAI" />
-      <h1>My Profile</h1>
-    </div>
-    <button class="btn-back" onclick="window.location.href='/dashboard'">← Dashboard</button>
-  </header>
-
-  <!-- ── CONTENT ── -->
-  <div class="profile-content">
-
-    <!-- Header card -->
-    <div class="profile-header-card">
-      <div class="profile-avatar" onclick="document.getElementById('photoInput').click()">
-        <span id="avatarLetter">Z</span>
-        <div class="profile-avatar-overlay">📷</div>
+    <!-- ── TOP BAR ── -->
+    <header class="profile-topbar">
+      <div class="profile-topbar-left">
+        <a href="/"><img src="/static/logo.png" alt="ZeptAI" /></a>
       </div>
-      <input type="file" id="photoInput" accept="image/*" onchange="handlePhotoChange(this)" />
-      <div class="profile-header-info">
-        <h2 id="headerName">Loading…</h2>
-        <p id="headerEmail"></p>
+      <nav class="profile-topbar-nav">
+        <a class="profile-nav-item" href="/dashboard">🏠 Dashboard</a>
+        <a class="profile-nav-item" href="/intake">🤖 Start Intake</a>
+        <a class="profile-nav-item active" href="/profile">👤 My Profile</a>
+        <a class="profile-nav-item" href="/reports">📂 Reports</a>
+      </nav>
+      <button class="btn-back" onclick="window.location.href='/dashboard'">← Dashboard</button>
+    </header>
+
+    <!-- ── CONTENT ── -->
+    <div class="profile-content">
+
+      <!-- Header card -->
+      <div class="profile-header-card">
+        <div class="profile-avatar" onclick="document.getElementById('photoInput').click()">
+          <span id="avatarLetter">Z</span>
+          <div class="profile-avatar-overlay">📷</div>
+        </div>
+        <input type="file" id="photoInput" accept="image/*" onchange="handlePhotoChange(this)" />
+        <div class="profile-header-info">
+          <h2 id="headerName">Loading…</h2>
+          <p id="headerEmail"></p>
+        </div>
+        <div class="profile-pid" id="headerPid">ZPT-PENDING</div>
       </div>
-      <div class="profile-pid" id="headerPid">ZPT-PENDING</div>
-    </div>
 
-    <!-- Banner -->
-    <div class="profile-banner" id="profileBanner"></div>
+      <!-- Banner -->
+      <div class="profile-banner" id="profileBanner"></div>
 
-    <!-- Personal Information -->
-    <div class="profile-section">
-      <h3>Personal Information</h3>
-      <div class="form-grid">
-        <div class="form-group full">
-          <label for="fullName">Full Name *</label>
-          <input id="fullName" type="text" placeholder="e.g. Prabhav Kumar" />
-        </div>
-        <div class="form-group">
-          <label for="age">Age</label>
-          <input id="age" type="number" min="1" max="120" placeholder="e.g. 35" />
-        </div>
-        <div class="form-group">
-          <label for="gender">Gender</label>
-          <select id="gender">
-            <option value="">Select…</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="other">Other</option>
-            <option value="prefer_not_to_say">Prefer not to say</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="dateOfBirth">Date of Birth</label>
-          <input id="dateOfBirth" type="date" />
-        </div>
-        <div class="form-group">
-          <label for="bloodGroup">Blood Group</label>
-          <select id="bloodGroup">
-            <option value="">Unknown</option>
-            <option>A+</option><option>A−</option>
-            <option>B+</option><option>B−</option>
-            <option>AB+</option><option>AB−</option>
-            <option>O+</option><option>O−</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="phoneNumber">Mobile Number</label>
-          <input id="phoneNumber" type="tel" placeholder="e.g. +919876543210" />
-        </div>
-        <div class="form-group full">
-          <label for="address">Address</label>
-          <input id="address" type="text" placeholder="City, State, Country" />
-        </div>
-      </div>
-    </div>
-
-    <!-- Medical History -->
-    <div class="profile-section">
-      <h3>Medical History</h3>
-      <div class="form-grid">
-        <div class="form-group full">
-          <label for="allergies">Allergies</label>
-          <textarea id="allergies" placeholder="e.g. Penicillin, peanuts, latex…"></textarea>
-        </div>
-        <div class="form-group full">
-          <label for="currentMedications">Current Medications</label>
-          <textarea id="currentMedications" placeholder="e.g. Metformin 500mg twice daily…"></textarea>
-        </div>
-        <div class="form-group full">
-          <label for="chronicConditions">Chronic Conditions</label>
-          <textarea id="chronicConditions" placeholder="e.g. Type-2 diabetes, hypertension…"></textarea>
-        </div>
-        <div class="form-group full">
-          <label for="pastSurgeries">Past Surgeries / Hospitalizations</label>
-          <textarea id="pastSurgeries" placeholder="e.g. Appendectomy 2018…"></textarea>
-        </div>
-        <div class="form-group full">
-          <label for="familyHistory">Family Medical History</label>
-          <textarea id="familyHistory" placeholder="e.g. Diabetes (father), heart disease (maternal)…"></textarea>
+      <!-- Personal Information -->
+      <div class="profile-section">
+        <h3>Personal Information</h3>
+        <div class="form-grid">
+          <div class="form-group full">
+            <label for="fullName">Full Name *</label>
+            <input id="fullName" type="text" placeholder="e.g. Prabhav Kumar" />
+          </div>
+          <div class="form-group">
+            <label for="age">Age</label>
+            <input id="age" type="number" min="1" max="120" placeholder="e.g. 35" />
+          </div>
+          <div class="form-group">
+            <label for="gender">Gender</label>
+            <select id="gender">
+              <option value="">Select…</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+              <option value="prefer_not_to_say">Prefer not to say</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="dateOfBirth">Date of Birth</label>
+            <input id="dateOfBirth" type="date" />
+          </div>
+          <div class="form-group">
+            <label for="bloodGroup">Blood Group</label>
+            <select id="bloodGroup">
+              <option value="">Unknown</option>
+              <option>A+</option>
+              <option>A−</option>
+              <option>B+</option>
+              <option>B−</option>
+              <option>AB+</option>
+              <option>AB−</option>
+              <option>O+</option>
+              <option>O−</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="phoneNumber">Mobile Number</label>
+            <input id="phoneNumber" type="tel" placeholder="e.g. +919876543210" />
+          </div>
+          <div class="form-group full">
+            <label for="address">Address</label>
+            <input id="address" type="text" placeholder="City, State, Country" />
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Emergency Contact -->
-    <div class="profile-section">
-      <h3>Emergency Contact</h3>
-      <div class="form-grid">
-        <div class="form-group">
-          <label for="emergencyName">Contact Name</label>
-          <input id="emergencyName" type="text" placeholder="e.g. Rajesh Kumar" />
-        </div>
-        <div class="form-group">
-          <label for="emergencyRelation">Relationship</label>
-          <input id="emergencyRelation" type="text" placeholder="e.g. Spouse, Parent" />
-        </div>
-        <div class="form-group full">
-          <label for="emergencyPhone">Contact Phone</label>
-          <input id="emergencyPhone" type="tel" placeholder="e.g. +919876543210" />
+      <!-- Medical History -->
+      <div class="profile-section">
+        <h3>Medical History</h3>
+        <div class="form-grid">
+          <div class="form-group full">
+            <label for="allergies">Allergies</label>
+            <textarea id="allergies" placeholder="e.g. Penicillin, peanuts, latex…"></textarea>
+          </div>
+          <div class="form-group full">
+            <label for="currentMedications">Current Medications</label>
+            <textarea id="currentMedications" placeholder="e.g. Metformin 500mg twice daily…"></textarea>
+          </div>
+          <div class="form-group full">
+            <label for="chronicConditions">Chronic Conditions</label>
+            <textarea id="chronicConditions" placeholder="e.g. Type-2 diabetes, hypertension…"></textarea>
+          </div>
+          <div class="form-group full">
+            <label for="pastSurgeries">Past Surgeries / Hospitalizations</label>
+            <textarea id="pastSurgeries" placeholder="e.g. Appendectomy 2018…"></textarea>
+          </div>
+          <div class="form-group full">
+            <label for="familyHistory">Family Medical History</label>
+            <textarea id="familyHistory" placeholder="e.g. Diabetes (father), heart disease (maternal)…"></textarea>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Save -->
-    <div class="profile-actions">
-      <button class="btn-save" id="btnSave" onclick="saveProfile()">
-        <div class="spinner" id="saveSpin"></div>
-        Save Profile
-      </button>
-    </div>
+      <!-- Emergency Contact -->
+      <div class="profile-section">
+        <h3>Emergency Contact</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="emergencyName">Contact Name</label>
+            <input id="emergencyName" type="text" placeholder="e.g. Rajesh Kumar" />
+          </div>
+          <div class="form-group">
+            <label for="emergencyRelation">Relationship</label>
+            <input id="emergencyRelation" type="text" placeholder="e.g. Spouse, Parent" />
+          </div>
+          <div class="form-group full">
+            <label for="emergencyPhone">Contact Phone</label>
+            <input id="emergencyPhone" type="tel" placeholder="e.g. +919876543210" />
+          </div>
+        </div>
+      </div>
 
-  </div><!-- /profile-content -->
-</div>
+      <!-- Save -->
+      <div class="profile-actions">
+        <button class="btn-save" id="btnSave" onclick="saveProfile()">
+          <div class="spinner" id="saveSpin"></div>
+          Save Profile
+        </button>
+      </div>
 
-<script src="/static/profile.js"></script>
-<script src="/static/auth-guard.js"></script>
+    </div><!-- /profile-content -->
+  </div>
+
+  <script src="/static/profile.js"></script>
+  <script src="/static/auth-guard.js"></script>
 </body>
+
 </html>
