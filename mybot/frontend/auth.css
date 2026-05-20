@@ -1,0 +1,153 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   ZeptAI — Auth Page Styles  |  auth.css
+───────────────────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --blue: #2563eb; --blue-lt: #eff6ff; --blue-mid: #dbeafe;
+  --green: #16a34a; --green-lt: #f0fdf4; --green-mid: #bbf7d0;
+  --bg: #f1f5f9; --surface: #ffffff;
+  --border: #e2e8f0; --border2: #cbd5e1;
+  --text: #0f172a; --text2: #334155; --muted: #64748b; --dim: #94a3b8;
+  --danger: #dc2626; --radius: 14px; --radius-sm: 8px;
+  --font: 'Inter', system-ui, sans-serif;
+  --grad: linear-gradient(135deg, #2563eb 0%, #16a34a 100%);
+  --shadow: 0 8px 40px rgba(37,99,235,.14);
+}
+html, body { height: 100%; font-family: var(--font); background: var(--bg); color: var(--text); }
+
+/* ── Layout ── */
+.auth-page {
+  min-height: 100vh; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 24px; position: relative;
+  background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%);
+}
+.auth-page::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+  background: var(--grad);
+}
+
+/* ── Logo area ── */
+.auth-logo { text-align: center; margin-bottom: 28px; }
+.auth-logo img { height: 44px; }
+.auth-logo p { font-size: 13px; color: var(--muted); margin-top: 6px; font-weight: 500; }
+
+/* ── Card ── */
+.auth-card {
+  background: var(--surface); border-radius: 20px;
+  box-shadow: var(--shadow); padding: 36px 36px 32px;
+  width: 100%; max-width: 420px;
+}
+@media(max-width:480px) { .auth-card { padding: 28px 22px 24px; border-radius: 16px; } }
+
+.auth-card-title { font-size: 20px; font-weight: 800; margin-bottom: 4px; }
+.auth-card-sub   { font-size: 14px; color: var(--muted); margin-bottom: 24px; }
+
+/* ── Tabs ── */
+.auth-tabs { display: flex; gap: 0; background: var(--bg); border-radius: var(--radius-sm); padding: 3px; margin-bottom: 24px; }
+.auth-tab {
+  flex: 1; background: none; border: none; border-radius: 7px;
+  padding: 9px 8px; font-size: 13px; font-weight: 600; color: var(--muted);
+  cursor: pointer; transition: all .18s; font-family: var(--font);
+}
+.auth-tab.active { background: var(--surface); color: var(--blue); box-shadow: 0 1px 6px rgba(0,0,0,.09); }
+
+/* ── Method tabs ── */
+.method-tabs { display: flex; gap: 6px; margin-bottom: 20px; }
+.method-tab {
+  flex: 1; background: var(--bg); border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm); padding: 8px 6px;
+  font-size: 12px; font-weight: 600; color: var(--muted);
+  cursor: pointer; transition: all .18s; font-family: var(--font); text-align: center;
+}
+.method-tab.active { background: var(--blue-lt); border-color: var(--blue); color: var(--blue); }
+
+/* ── Form ── */
+.auth-form { display: flex; flex-direction: column; gap: 14px; }
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-group label { font-size: 12px; font-weight: 600; color: var(--text2); }
+.form-group input {
+  background: #f8fafc; border: 1.5px solid var(--border2);
+  border-radius: var(--radius-sm); padding: 11px 14px;
+  color: var(--text); font-size: 14px; font-family: var(--font); outline: none;
+  transition: border-color .18s, box-shadow .18s, background .18s;
+}
+.form-group input:focus {
+  border-color: var(--blue); background: #fff;
+  box-shadow: 0 0 0 3px rgba(37,99,235,.10);
+}
+.form-group input::placeholder { color: var(--dim); }
+
+/* Phone row */
+.phone-row { display: flex; gap: 8px; }
+.phone-code {
+  width: 74px; flex-shrink: 0;
+  background: #f8fafc; border: 1.5px solid var(--border2);
+  border-radius: var(--radius-sm); padding: 11px 10px;
+  color: var(--text); font-size: 14px; font-family: var(--font); outline: none;
+}
+.phone-code:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(37,99,235,.10); }
+
+/* Error */
+.form-error { font-size: 12px; color: var(--danger); font-weight: 500; display: none; }
+.form-error.show { display: block; }
+
+/* ── reCAPTCHA container ── */
+#recaptcha-container { margin: 4px 0; }
+
+/* ── OTP section ── */
+.otp-hint { font-size: 13px; color: var(--muted); margin-bottom: 12px; line-height: 1.5; }
+
+/* ── Buttons ── */
+.btn-auth {
+  width: 100%; padding: 13px; border: none; border-radius: var(--radius-sm);
+  background: var(--grad); color: #fff;
+  font-size: 15px; font-weight: 700; font-family: var(--font);
+  cursor: pointer; box-shadow: 0 3px 16px rgba(37,99,235,.28);
+  transition: opacity .18s, transform .18s;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  margin-top: 4px;
+}
+.btn-auth:hover { opacity: .9; transform: translateY(-1px); }
+.btn-auth:disabled { opacity: .55; cursor: not-allowed; transform: none; }
+
+.btn-google {
+  width: 100%; padding: 12px; border: 1.5px solid var(--border2);
+  border-radius: var(--radius-sm); background: var(--surface); color: var(--text2);
+  font-size: 14px; font-weight: 600; font-family: var(--font);
+  cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;
+  transition: all .18s;
+}
+.btn-google:hover { border-color: #4285f4; background: #f8fbff; }
+.google-icon { width: 18px; height: 18px; }
+
+/* ── Divider ── */
+.auth-divider {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 12px; color: var(--dim); margin: 4px 0;
+}
+.auth-divider::before, .auth-divider::after {
+  content: ''; flex: 1; height: 1px; background: var(--border);
+}
+
+/* ── Loading spinner ── */
+.spinner {
+  width: 18px; height: 18px;
+  border: 2px solid rgba(255,255,255,.4);
+  border-top-color: #fff;
+  border-radius: 50%; animation: spin .6s linear infinite;
+  display: none;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Global error/success banner ── */
+.auth-banner {
+  padding: 11px 16px; border-radius: var(--radius-sm);
+  font-size: 13px; font-weight: 500; display: none; margin-bottom: 16px;
+}
+.auth-banner.error   { background: #fef2f2; color: var(--danger); border: 1px solid #fecaca; display: block; }
+.auth-banner.success { background: var(--green-lt); color: var(--green); border: 1px solid var(--green-mid); display: block; }
+
+/* ── Footer note ── */
+.auth-footer { font-size: 12px; color: var(--muted); text-align: center; margin-top: 20px; line-height: 1.6; }
+.auth-footer a { color: var(--blue); font-weight: 600; cursor: pointer; }

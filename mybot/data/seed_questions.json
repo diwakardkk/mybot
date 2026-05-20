@@ -1,0 +1,62 @@
+{
+  "question_set_id": "intake_v2",
+  "version": "2.0.0",
+  "questions": [
+    {
+      "id": "q0",
+      "text": "Could you please tell me your age?",
+      "required": true,
+      "stage": "start",
+      "field_key": "age",
+      "follow_up_hint": "Record exact age in years."
+    },
+    {
+      "id": "q1",
+      "text": "What is your gender? (Male / Female / Other)",
+      "required": true,
+      "stage": "start",
+      "field_key": "gender",
+      "follow_up_hint": "Record as stated by patient."
+    },
+    {
+      "id": "q2",
+      "text": "What is the main reason for your visit today?",
+      "required": true,
+      "stage": "start",
+      "field_key": "chief_complaint",
+      "follow_up_hint": "Ask if it came on suddenly or gradually."
+    },
+    {
+      "id": "q3",
+      "text": "Since when have you had these symptoms?",
+      "required": true,
+      "stage": "symptom",
+      "field_key": "duration",
+      "follow_up_hint": "Record exact number of days, hours, or weeks."
+    },
+    {
+      "id": "q4",
+      "text": "Do you have fever, cough, or shortness of breath?",
+      "required": true,
+      "stage": "symptom",
+      "field_key": "associated_symptoms",
+      "follow_up_hint": "Note severity on a scale of 1–10 if patient volunteers."
+    },
+    {
+      "id": "q5",
+      "text": "Are you taking any current medications?",
+      "required": true,
+      "stage": "history",
+      "field_key": "medications",
+      "follow_up_hint": "Include over-the-counter, prescriptions, and supplements."
+    },
+    {
+      "id": "q6",
+      "text": "Do you have any known allergies or past major illnesses?",
+      "required": true,
+      "stage": "summary",
+      "field_key": "allergies_and_history",
+      "follow_up_hint": "Ask specifically about drug allergies and surgeries."
+    }
+  ]
+}

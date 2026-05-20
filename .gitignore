@@ -1,57 +1,57 @@
+# ── Secrets / Credentials ──────────────────────────────────────────────
+.env
+.env.*
+*.env
+**/serviceAccount*.json
+**/firebase-admin-key*.json
+google-services.json
+GoogleService-Info.plist
+
 # ── Python ─────────────────────────────────────────────────────────────
 __pycache__/
 *.py[cod]
 *.pyo
 *.pyd
-*.egg
 *.egg-info/
 dist/
 build/
 .eggs/
-*.so
-.Python
-env/
-venv/
 .venv/
-*.egg-link
+venv/
+env/
 
-# ── Environment / Secrets ───────────────────────────────────────────────
-.env
-.env.local
-.env.production
-*.env
-
-# ── Database ────────────────────────────────────────────────────────────
+# ── Databases ──────────────────────────────────────────────────────────
 *.db
 *.sqlite
 *.sqlite3
-data/exports/
 
-# ── FAISS vectorstore (rebuild from source JSON on deploy) ─────────────
-data/vectorstore/
+# ── Patient data (NEVER commit) ────────────────────────────────────────
+patient_data/
+mybot/patient_data/
+MyNurseAPI/patient_data/
 
-# ── Logs ────────────────────────────────────────────────────────────────
-*.log
-logs/
+# ── Vectorstore (rebuild on deploy) ────────────────────────────────────
+**/vectorstore/
+**/data/exports/
+
+# ── Audio temp files ───────────────────────────────────────────────────
+**/audio_store/
+**/*.mp3
+**/*.wav
+**/*.ogg
 
 # ── OS ──────────────────────────────────────────────────────────────────
 .DS_Store
 Thumbs.db
 desktop.ini
 
-# ── IDE ──────────────────────────────────────────────────────────────────
+# ── IDE ─────────────────────────────────────────────────────────────────
 .vscode/
 .idea/
 *.swp
 *.swo
 
-# ── Testing ──────────────────────────────────────────────────────────────
-.pytest_cache/
-.coverage
-htmlcov/
-
-# ── Node (future frontend tooling) ──────────────────────────────────────
+# ── Node (if any tooling added) ─────────────────────────────────────────
 node_modules/
-
-# ── Docker ──────────────────────────────────────────────────────────────
-.dockerignore
+.firebase/
+.firebaserc

@@ -1,0 +1,29 @@
+{
+  "name": "ZeptAI Patient Intake",
+  "short_name": "ZeptAI",
+  "description": "AI-powered patient intake assistant — voice and text chat before your doctor visit.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "/static/logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/static/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["health", "medical"],
+  "related_applications": [],
+  "prefer_related_applications": false
+}

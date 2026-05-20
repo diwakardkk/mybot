@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ZeptAI — Patient Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/dashboard.css" />
+  <link rel="manifest" href="/static/manifest.json" />
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
+  <script src="/static/firebase-config.js"></script>
+  <script src="/static/firebase-service.js"></script>
+</head>
+<body>
+<div class="dash-app">
+
+  <!-- ── SIDEBAR ─────────────────────────────────────────────────────────── -->
+  <aside class="dash-sidebar">
+    <div class="dash-sidebar-header">
+      <a href="/"><img src="/static/logo.png" alt="ZeptAI" class="dash-logo" /></a>
+    </div>
+    <nav class="dash-sidebar-nav">
+      <a class="nav-item active" href="/dashboard">
+        <span class="nav-item-icon">🏠</span> Dashboard
+      </a>
+      <a class="nav-item" href="/intake">
+        <span class="nav-item-icon">🤖</span> Start Intake
+      </a>
+      <a class="nav-item" href="/profile">
+        <span class="nav-item-icon">👤</span> My Profile
+      </a>
+      <a class="nav-item" href="/reports">
+        <span class="nav-item-icon">📂</span> Medical Reports
+      </a>
+    </nav>
+    <div class="dash-sidebar-footer" id="sidebarPatientId">ZeptAI</div>
+  </aside>
+
+  <!-- ── MAIN ────────────────────────────────────────────────────────────── -->
+  <main class="dash-main">
+
+    <!-- Top bar -->
+    <div class="dash-topbar">
+      <div class="dash-welcome">
+        <h1>Good day, <span id="welcomeName">there</span> 👋</h1>
+        <p id="welcomeDate">Loading…</p>
+      </div>
+      <div class="dash-topbar-right">
+        <div class="avatar-chip">
+          <div class="avatar-img" id="avatarEl">Z</div>
+          <span id="avatarName">Patient</span>
+        </div>
+        <button class="btn-logout" onclick="window.zeptSignOut ? window.zeptSignOut() : (window.location.href='/')">
+          Sign Out
+        </button>
+      </div>
+    </div>
+
+    <!-- Patient ID Card -->
+    <div class="pid-card">
+      <div>
+        <h3>Patient ID</h3>
+        <div class="pid-val" id="patientIdDisplay">Loading…</div>
+      </div>
+      <div class="pid-chip" onclick="copyPatientId()" title="Copy Patient ID">📋 Copy ID</div>
+    </div>
+
+    <!-- Profile Completion -->
+    <div class="profile-completion" id="profileCompletionBar">
+      <div class="pc-left">
+        <div style="font-size:24px">📋</div>
+        <div class="pc-text">
+          <h4>Complete Your Profile</h4>
+          <p>Add medical history, emergency contact, and more.</p>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <div class="pc-bar-wrap"><div class="pc-bar" id="pcBar" style="width:40%"></div></div>
+        <span class="pc-pct" id="pcPct">40%</span>
+        <button class="btn-complete" onclick="window.location.href='/profile'">Complete Now</button>
+      </div>
+    </div>
+
+    <!-- Action Cards -->
+    <div class="actions-grid">
+      <div class="action-card blue" onclick="window.location.href='/intake'">
+        <div class="ac-icon">🤖</div>
+        <div class="ac-title">Start New Intake</div>
+        <div class="ac-desc">Begin a new AI-assisted patient intake session before your doctor visit.</div>
+        <div><span class="ac-badge new">AI-Powered</span></div>
+      </div>
+      <div class="action-card green" id="continueIntakeCard" onclick="window.location.href='/intake'" style="display:none">
+        <div class="ac-icon">▶️</div>
+        <div class="ac-title">Continue Intake</div>
+        <div class="ac-desc">You have an active intake session. Continue from where you left off.</div>
+        <div><span class="ac-badge active">Active Session</span></div>
+      </div>
+      <div class="action-card blue" onclick="window.location.href='/profile'">
+        <div class="ac-icon">👤</div>
+        <div class="ac-title">View / Edit Profile</div>
+        <div class="ac-desc">Update your medical history, allergies, medications, and emergency contact.</div>
+      </div>
+      <div class="action-card green" onclick="window.location.href='/reports'">
+        <div class="ac-icon">📂</div>
+        <div class="ac-title">Upload Medical Reports</div>
+        <div class="ac-desc">Attach PDFs, images, or documents to your profile. Encrypted secure storage.</div>
+      </div>
+      <div class="action-card warn" id="prevReportsCard" onclick="scrollToReports()">
+        <div class="ac-icon">📊</div>
+        <div class="ac-title">Previous Intake Reports</div>
+        <div class="ac-desc">View AI-generated intake summaries from your past consultations.</div>
+      </div>
+    </div>
+
+    <!-- Previous Intakes -->
+    <div id="recentSection">
+      <div class="section-title">Recent Intake Reports</div>
+      <div class="intake-list" id="intakeList">
+        <div class="skeleton" style="height:56px"></div>
+        <div class="skeleton" style="height:56px;opacity:.6"></div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script src="/static/dashboard.js"></script>
+<script src="/static/auth-guard.js"></script>
+</body>
+</html>

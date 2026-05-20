@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ZeptAI — AI Patient Intake Assistant</title>
+  <meta name="description" content="ZeptAI helps patients share symptoms, history, vitals, and reports before consultation, giving doctors a structured AI-assisted summary." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/landing.css" />
+  <link rel="manifest" href="/static/manifest.json" />
+  <meta name="theme-color" content="#2563eb" />
+</head>
+<body>
+
+<!-- ── NAV ────────────────────────────────────────────────────────────────── -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <img src="/static/logo.png" alt="ZeptAI" />
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="#features" class="nav-link">Features</a>
+      <a href="#how" class="nav-link">How It Works</a>
+      <a href="#security" class="nav-link">Security</a>
+      <button class="btn-nav-login" onclick="goToLogin()">Log In</button>
+      <button class="btn-nav-signup" onclick="goToSignup()">Create Account</button>
+    </div>
+    <button class="nav-mobile-toggle" id="navToggle" aria-label="Toggle menu">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="2">
+        <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+<!-- ── HERO ───────────────────────────────────────────────────────────────── -->
+<section class="hero container">
+  <div class="hero-text">
+    <div class="tag">Healthcare AI Platform</div>
+    <h1 class="hero-headline">
+      <span class="grad-text">ZeptAI</span><br/>
+      Patient Intake<br/>Assistant
+    </h1>
+    <p class="hero-sub">
+      Reducing Doctor Stress with Intelligent Patient Intake.
+      ZeptAI helps patients share symptoms, history, vitals, and medical reports before consultation —
+      giving doctors a structured, AI-assisted summary.
+    </p>
+    <div class="hero-cta">
+      <button class="btn-hero-primary" onclick="goToSignup()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        Create Free Account
+      </button>
+      <button class="btn-hero-secondary" onclick="goToLogin()">Log In</button>
+      <button class="btn-hero-tertiary" onclick="goToIntake()">Start Secure Intake</button>
+    </div>
+    <div class="hero-trust">
+      <span>Firebase Auth</span>
+      <span>Encrypted Records</span>
+      <span>Doctor-Ready Summary</span>
+      <span>Voice + Text</span>
+    </div>
+  </div>
+
+  <!-- CSS Dashboard Mockup -->
+  <div class="hero-visual">
+    <div class="hero-card">
+      <div class="hero-card-header">
+        <div class="hero-card-title">📋 Patient Intake Summary</div>
+        <div class="hero-badge">Active</div>
+      </div>
+      <div class="vital-row">
+        <div>
+          <div class="vital-label">Blood Pressure</div>
+          <div class="vital-val">120 / 80 mmHg</div>
+        </div>
+        <div class="vital-status ok">Normal</div>
+      </div>
+      <div class="vital-row">
+        <div>
+          <div class="vital-label">Blood Sugar</div>
+          <div class="vital-val">105 mg/dL</div>
+        </div>
+        <div class="vital-status warn">Borderline</div>
+      </div>
+      <div class="vital-row">
+        <div>
+          <div class="vital-label">BMI</div>
+          <div class="vital-val">22.4</div>
+        </div>
+        <div class="vital-status ok">Healthy</div>
+      </div>
+      <div class="vital-row">
+        <div>
+          <div class="vital-label">Pulse</div>
+          <div class="vital-val">72 bpm</div>
+        </div>
+        <div class="vital-status ok">Normal</div>
+      </div>
+      <div class="hero-msg">
+        🤖 <strong>ZeptAI:</strong> Based on your symptoms and vitals, here is a structured summary ready for your doctor…
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FEATURES ───────────────────────────────────────────────────────────── -->
+<section class="section section-alt" id="features">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="tag">What ZeptAI Does</div>
+      <h2>Everything patients need before seeing a doctor</h2>
+      <p>From voice intake to structured AI summaries — ZeptAI makes every consultation more efficient.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card fade-up">
+        <div class="feature-icon blue">🎙️</div>
+        <h3>Voice &amp; Text Intake</h3>
+        <p>Patients can speak or type their symptoms naturally. ZeptAI understands and structures the information automatically.</p>
+      </div>
+      <div class="feature-card fade-up">
+        <div class="feature-icon green">🔐</div>
+        <h3>Secure Patient Profile</h3>
+        <p>Each patient has a unique ZPT- ID. Profiles store medical history, allergies, and medications securely in the cloud.</p>
+      </div>
+      <div class="feature-card fade-up">
+        <div class="feature-icon blue">📂</div>
+        <h3>Upload Medical Reports</h3>
+        <p>Patients can attach PDFs, images, or documents before their visit. Files are stored securely with encryption support.</p>
+      </div>
+      <div class="feature-card fade-up">
+        <div class="feature-icon green">📊</div>
+        <h3>Doctor-Ready Summary</h3>
+        <p>ZeptAI generates a clean, structured intake report with vitals, symptoms, and AI insights — ready before the appointment.</p>
+      </div>
+      <div class="feature-card fade-up">
+        <div class="feature-icon blue">💓</div>
+        <h3>Vitals &amp; History Tracking</h3>
+        <p>Track blood pressure, blood sugar, BMI, temperature, and pulse over time. Trend data helps doctors spot patterns.</p>
+      </div>
+      <div class="feature-card fade-up">
+        <div class="feature-icon green">🛡️</div>
+        <h3>Privacy-First Healthcare AI</h3>
+        <p>Built with Firebase Authentication, role-ready architecture, and secure data storage. Designed for real healthcare environments.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── HOW IT WORKS ────────────────────────────────────────────────────────── -->
+<section class="section" id="how">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="tag green">How It Works</div>
+      <h2>From signup to doctor visit in minutes</h2>
+      <p>A simple four-step process that saves time for both patients and doctors.</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card fade-up">
+        <div class="step-num">1</div>
+        <h4>Create Account</h4>
+        <p>Sign up with mobile OTP, email, or Google. Get your unique ZPT- Patient ID instantly.</p>
+      </div>
+      <div class="step-card fade-up">
+        <div class="step-num">2</div>
+        <h4>Complete Profile</h4>
+        <p>Add medical history, allergies, medications, and emergency contact. Takes under 2 minutes.</p>
+      </div>
+      <div class="step-card fade-up">
+        <div class="step-num">3</div>
+        <h4>Start Intake</h4>
+        <p>Chat or speak with ZeptAI. Enter vitals. Upload any relevant reports or documents.</p>
+      </div>
+      <div class="step-card fade-up">
+        <div class="step-num">4</div>
+        <h4>Doctor Gets Summary</h4>
+        <p>A structured, AI-generated intake report is ready when your doctor opens the session.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SECURITY / TRUST ────────────────────────────────────────────────────── -->
+<section class="section section-alt" id="security">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="tag">Security &amp; Trust</div>
+      <h2>Built for real healthcare environments</h2>
+      <p>Every architectural decision prioritises patient data security and compliance readiness.</p>
+    </div>
+    <div class="trust-grid">
+      <div class="trust-card fade-up">
+        <div class="trust-icon">🔑</div>
+        <h4>Firebase Authentication</h4>
+        <p>Industry-grade auth with mobile OTP, email/password, and Google sign-in.</p>
+      </div>
+      <div class="trust-card fade-up">
+        <div class="trust-icon">🔒</div>
+        <h4>Encrypted File Handling</h4>
+        <p>Medical reports are encrypted in the browser using AES-GCM before upload. Architecture-ready for managed keys.</p>
+      </div>
+      <div class="trust-card fade-up">
+        <div class="trust-icon">📋</div>
+        <h4>Secure Patient Records</h4>
+        <p>Firestore Security Rules ensure patients can only access their own data. No cross-patient data leaks.</p>
+      </div>
+      <div class="trust-card fade-up">
+        <div class="trust-icon">🏗️</div>
+        <h4>Role-Ready Architecture</h4>
+        <p>Designed for patient / doctor / admin roles. Ready to extend with server-side Firebase token verification.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA BANNER ──────────────────────────────────────────────────────────── -->
+<section class="cta-section">
+  <h2>Ready to simplify patient intake?</h2>
+  <p>Create your free ZeptAI account and start your first AI-assisted intake today.</p>
+  <button class="btn-cta-white" onclick="goToSignup()">
+    Get Started Free
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+  </button>
+  <button class="btn-cta-outline" onclick="goToLogin()">Already have an account? Log In</button>
+</section>
+
+<!-- ── FOOTER ──────────────────────────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img src="/static/logo.png" alt="ZeptAI" />
+        <p>Privacy-first healthcare AI. Intelligent patient intake assistant.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h5>Product</h5>
+          <a href="#features">Features</a>
+          <a href="#how">How It Works</a>
+          <a href="#security">Security</a>
+        </div>
+        <div class="footer-col">
+          <h5>Account</h5>
+          <a href="/auth?mode=login" onclick="goToLogin();return false;">Log In</a>
+          <a href="/auth?mode=signup" onclick="goToSignup();return false;">Create Account</a>
+          <a href="/dashboard">Dashboard</a>
+        </div>
+        <div class="footer-col">
+          <h5>Developer</h5>
+          <a href="https://github.com/diwakardkk/mybot" target="_blank" rel="noopener">GitHub Repo</a>
+          <a href="/api/v1/docs" target="_blank">API Docs</a>
+        </div>
+      </div>
+    </div>
+    <hr class="footer-divider" />
+    <div class="footer-bottom">
+      <span>© 2026 ZeptAI. All rights reserved.</span>
+      <p class="footer-disclaimer">
+        ⚠️ ZeptAI is not a substitute for professional medical advice, diagnosis, or treatment.
+        Always consult a qualified healthcare provider for medical decisions.
+      </p>
+    </div>
+  </div>
+</footer>
+
+<script src="/static/landing.js"></script>
+</body>
+</html>

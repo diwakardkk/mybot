@@ -1,0 +1,110 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   ZeptAI — Medical Reports Styles  |  reports.css
+───────────────────────────────────────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --blue:#2563eb;--blue-lt:#eff6ff;--blue-mid:#dbeafe;
+  --green:#16a34a;--green-lt:#f0fdf4;--green-mid:#bbf7d0;
+  --bg:#f1f5f9;--surface:#ffffff;--surface2:#f8fafc;
+  --border:#e2e8f0;--border2:#cbd5e1;
+  --text:#0f172a;--text2:#334155;--muted:#64748b;--dim:#94a3b8;
+  --danger:#dc2626;
+  --radius:14px;--radius-sm:8px;
+  --shadow:0 4px 24px rgba(37,99,235,.10);
+  --grad:linear-gradient(135deg,#2563eb 0%,#16a34a 100%);
+  --font:'Inter',system-ui,sans-serif;
+}
+html,body{height:100%;font-family:var(--font);background:var(--bg);color:var(--text);}
+
+/* ── Layout ── */
+.reports-page{min-height:100vh;display:flex;flex-direction:column;}
+.reports-topbar{
+  background:var(--surface);border-bottom:1px solid var(--border);
+  padding:14px 24px;display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:10;
+}
+.reports-topbar-left{display:flex;align-items:center;gap:12px;}
+.reports-topbar img{height:32px;}
+.reports-topbar h1{font-size:16px;font-weight:700;}
+.btn-back{
+  background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--radius-sm);
+  padding:8px 16px;font-size:13px;font-weight:600;color:var(--text2);
+  cursor:pointer;font-family:var(--font);transition:all .18s;
+}
+.btn-back:hover{border-color:var(--blue);color:var(--blue);}
+
+.reports-content{max-width:860px;margin:0 auto;width:100%;padding:32px 24px;}
+@media(max-width:640px){.reports-content{padding:20px 16px;}}
+
+/* ── Banner ── */
+.reports-banner{
+  padding:12px 16px;border-radius:var(--radius-sm);
+  font-size:13px;font-weight:500;margin-bottom:20px;display:none;
+}
+.reports-banner.success{background:var(--green-lt);color:var(--green);border:1px solid var(--green-mid);display:block;}
+.reports-banner.error  {background:#fef2f2;color:var(--danger);border:1px solid #fecaca;display:block;}
+
+/* ── Drop Zone ── */
+.dropzone{
+  background:var(--surface);border:2.5px dashed var(--border2);border-radius:var(--radius);
+  padding:40px 24px;text-align:center;margin-bottom:24px;
+  transition:all .2s;cursor:pointer;
+}
+.dropzone.over{border-color:var(--blue);background:var(--blue-lt);}
+.dz-icon{font-size:40px;margin-bottom:12px;}
+.dz-title{font-size:16px;font-weight:700;margin-bottom:6px;}
+.dz-sub{font-size:13px;color:var(--muted);}
+.dz-types{font-size:11px;color:var(--dim);margin-top:8px;}
+#fileInput{display:none;}
+.btn-browse{
+  display:inline-block;margin-top:14px;
+  background:var(--grad);color:#fff;border:none;border-radius:var(--radius-sm);
+  padding:9px 22px;font-size:13px;font-weight:700;cursor:pointer;
+  font-family:var(--font);transition:opacity .18s;
+}
+.btn-browse:hover{opacity:.88;}
+
+/* ── Progress ── */
+.upload-progress{display:none;margin-bottom:20px;}
+.up-row{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+.up-name{font-size:13px;font-weight:600;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.progress-bar-wrap{flex:2;height:8px;background:var(--border);border-radius:4px;overflow:hidden;}
+.progress-bar{height:100%;background:var(--grad);border-radius:4px;transition:width .3s;}
+.up-pct{font-size:12px;font-weight:700;color:var(--blue);min-width:36px;text-align:right;}
+
+/* ── Reports list ── */
+.section-title{font-size:16px;font-weight:800;margin-bottom:14px;}
+.reports-list{display:flex;flex-direction:column;gap:10px;}
+.report-row{
+  background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);
+  padding:14px 18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+}
+.report-type-icon{font-size:26px;flex-shrink:0;}
+.report-info{flex:1;}
+.report-info h4{font-size:14px;font-weight:700;margin-bottom:3px;}
+.report-info p{font-size:12px;color:var(--muted);}
+.report-actions{display:flex;gap:8px;}
+.btn-dl,.btn-del{
+  border-radius:var(--radius-sm);padding:7px 14px;
+  font-size:12px;font-weight:600;cursor:pointer;
+  font-family:var(--font);transition:all .18s;
+}
+.btn-dl{background:var(--blue-lt);color:var(--blue);border:1.5px solid var(--blue-mid);}
+.btn-dl:hover{background:var(--blue);color:#fff;}
+.btn-del{background:#fff;color:var(--danger);border:1.5px solid #fecaca;}
+.btn-del:hover{background:#fef2f2;}
+
+.empty-state{
+  text-align:center;padding:36px 20px;
+  background:var(--surface);border:1.5px dashed var(--border);
+  border-radius:var(--radius);color:var(--muted);font-size:14px;
+}
+.empty-icon{font-size:36px;margin-bottom:12px;}
+
+/* ── Encryption notice ── */
+.enc-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--green-lt);border:1px solid var(--green-mid);
+  border-radius:20px;padding:4px 12px;
+  font-size:11px;font-weight:700;color:var(--green);margin-bottom:14px;
+}
